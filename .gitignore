@@ -1,0 +1,7 @@
+.vscode/
+.env
+.idea
+docker-compose.yml
+fabfile.py
+go.sum
+debug
