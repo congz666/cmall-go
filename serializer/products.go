@@ -12,6 +12,7 @@ type Products struct {
 	ImgPath       string `json:"img_path"`
 	Price         string `json:"price"`
 	DiscountPrice string `json:"discount_price"`
+	View          uint64 `json:"view"`
 	CreatedAt     int64  `json:"created_at"`
 }
 
@@ -26,6 +27,7 @@ func BuildProduct(item model.Products) Products {
 		ImgPath:       item.ImgPath,
 		Price:         item.Price,
 		DiscountPrice: item.DiscountPrice,
+		View:          item.View(),
 		CreatedAt:     item.CreatedAt.Unix(),
 	}
 }

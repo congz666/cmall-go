@@ -63,7 +63,7 @@ func (service *UserRegisterService) Register() (model.User, *serializer.Response
 			Msg:    "密码加密失败",
 		}
 	}
-
+	user.Avatar = "img/avatar/avatar1.jpg"
 	// 创建用户
 	if err := model.DB.Create(&user).Error; err != nil {
 		return user, &serializer.Response{

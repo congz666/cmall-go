@@ -10,13 +10,13 @@ import (
 	"github.com/google/uuid"
 )
 
-// UploadTokenService 获得上传oss token的服务
-type UploadTokenService struct {
+// UploadAvatarService 获得上传oss token的服务
+type UploadAvatarService struct {
 	Filename string `form:"filename" json:"filename"`
 }
 
 // Post 创建token
-func (service *UploadTokenService) Post() serializer.Response {
+func (service *UploadAvatarService) Post() serializer.Response {
 	client, err := oss.New(os.Getenv("OSS_END_POINT"), os.Getenv("OSS_ACCESS_KEY_ID"), os.Getenv("OSS_ACCESS_KEY_SECRET"))
 	if err != nil {
 		return serializer.Response{

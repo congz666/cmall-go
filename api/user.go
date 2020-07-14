@@ -44,6 +44,41 @@ func UserLogin(c *gin.Context) {
 	}
 }
 
+// UserUpdate 用户修改信息
+func UserUpdate(c *gin.Context) {
+	user := CurrentUser(c)
+	ID := user.ID
+	var service service.UserUpdateService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Update(ID)
+		c.JSON(200, res)
+
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
+}
+
+// AdminLogin 管理员登录接口
+func AdminLogin(c *gin.Context) {
+	var service service.AdminLoginService
+	if err := c.ShouldBind(&service); err == nil {
+		if user, err := service.Login(); err != nil {
+			c.JSON(200, err)
+		} else {
+			// 设置Session
+			s := sessions.Default(c)
+			s.Clear()
+			s.Set("user_id", user.ID)
+			s.Save()
+
+			res := serializer.BuildUserResponse(user)
+			c.JSON(200, res)
+		}
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
+}
+
 // UserMe 用户详情
 func UserMe(c *gin.Context) {
 	user := CurrentUser(c)

@@ -5,14 +5,29 @@ import (
 	"cmall/serializer"
 )
 
-// ShowFavoritesService 商品图片详情的服务
+// ShowFavoritesService 展示收藏夹详情的服务
 type ShowFavoritesService struct {
+	Limit int `form:"limit"`
+	Start int `form:"start"`
 }
 
 // Show 商品图片
 func (service *ShowFavoritesService) Show(id string) serializer.Response {
 	var favorites []model.Favorites
-	err := model.DB.Where("user_id=?", id).Find(&favorites).Error
+	total := 0
+
+	if service.Limit == 0 {
+		service.Limit = 12
+	}
+	if err := model.DB.Model(&favorites).Where("user_id=?", id).Count(&total).Error; err != nil {
+		return serializer.Response{
+			Status: 50000,
+			Msg:    "数据库连接错误",
+			Error:  err.Error(),
+		}
+	}
+
+	err := model.DB.Where("user_id=?", id).Limit(service.Limit).Offset(service.Start).Find(&favorites).Error
 	if err != nil {
 		return serializer.Response{
 			Status: 404,
@@ -21,7 +36,5 @@ func (service *ShowFavoritesService) Show(id string) serializer.Response {
 		}
 	}
 
-	return serializer.Response{
-		Data: serializer.BuildFavorites(favorites),
-	}
+	return serializer.BuildListResponse(serializer.BuildFavorites(favorites), uint(total))
 }

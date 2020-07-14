@@ -18,7 +18,7 @@ func (service *UserLoginService) Login() (model.User, *serializer.Response) {
 	if err := model.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
 		return user, &serializer.Response{
 			Status: 40001,
-			Msg:    "账号或密码错误",
+			Msg:    "不存在该账号",
 		}
 	}
 

@@ -25,7 +25,7 @@ func BuildUser(user model.User) User {
 		UserName:  user.UserName,
 		Nickname:  user.Nickname,
 		Status:    user.Status,
-		Avatar:    user.Avatar,
+		Avatar:    user.AvatarURL(),
 		CreatedAt: user.CreatedAt.Unix(),
 	}
 }

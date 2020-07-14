@@ -27,6 +27,11 @@ func NewRouter() *gin.Engine {
 
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
+		//更新用户信息
+		v1.PUT("user", api.UserUpdate)
+
+		// 管理员登录
+		v1.POST("admin/login", api.AdminLogin)
 
 		// 需要登录保护的
 		authed := v1.Group("/")
@@ -42,6 +47,7 @@ func NewRouter() *gin.Engine {
 		v1.GET("products/:id", api.ShowProduct)
 		v1.GET("categories/:category_id", api.ShowCategory)
 		v1.DELETE("products/:id", api.DeleteProduct)
+		v1.PUT("products", api.UpdateProduct)
 		//轮播图操作
 		v1.POST("carousels", api.CreateCarousel)
 		v1.GET("carousels", api.ListCarousels)
@@ -65,10 +71,15 @@ func NewRouter() *gin.Engine {
 		v1.GET("carts/:id", api.ShowCarts)
 		v1.PUT("carts", api.UpdateCart)
 		v1.DELETE("carts", api.DeleteCart)
+		//热门
+		v1.GET("EHots", api.ListProducts)
+		v1.GET("PHots", api.ListProducts)
+		//排行榜
+		v1.GET("rankings/", api.ShowRanking)
 		//README操作
 		v1.GET("abouts", api.ReadMe)
-		// 其他
-		v1.POST("upload/token", api.UploadToken)
+		// 上传操作
+		v1.POST("avatar", api.UploadToken)
 	}
 
 	return r

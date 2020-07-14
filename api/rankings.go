@@ -6,11 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UploadToken 上传授权
-func UploadToken(c *gin.Context) {
-	service := service.UploadAvatarService{}
+// ShowRanking 排行
+func ShowRanking(c *gin.Context) {
+	service := service.ShowRankingService{}
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Post()
+		res := service.Show()
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))

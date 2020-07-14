@@ -20,8 +20,12 @@ func CreateFavorite(c *gin.Context) {
 // ShowFavorites 收藏夹详情接口
 func ShowFavorites(c *gin.Context) {
 	service := service.ShowFavoritesService{}
-	res := service.Show(c.Param("id"))
-	c.JSON(200, res)
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Show(c.Param("id"))
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
 }
 
 // DeleteFavorite 删除收藏夹的接口

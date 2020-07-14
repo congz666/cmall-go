@@ -12,7 +12,7 @@ type ReadMeService struct {
 
 // Read
 func (service *ReadMeService) Read() serializer.Response {
-	f, err := os.Open("./README.md")
+	f, err := os.Open("./me.md")
 	if err != nil {
 		return serializer.Response{
 			Status: 404,

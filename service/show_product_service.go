@@ -20,6 +20,8 @@ func (service *ShowProductService) Show(id string) serializer.Response {
 			Error:  err.Error(),
 		}
 	}
+	//增加点击数
+	product.AddView()
 
 	return serializer.Response{
 		Data: serializer.BuildProduct(product),

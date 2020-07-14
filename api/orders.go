@@ -20,6 +20,10 @@ func CreateOrder(c *gin.Context) {
 // ShowOrders 订单详情接口
 func ShowOrders(c *gin.Context) {
 	service := service.ShowOrdersService{}
-	res := service.Show(c.Param("id"))
-	c.JSON(200, res)
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Show(c.Param("id"))
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
 }

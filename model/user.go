@@ -1,6 +1,9 @@
 package model
 
 import (
+	"os"
+
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -12,6 +15,7 @@ type User struct {
 	PasswordDigest string
 	Nickname       string
 	Status         string
+	Limit          int
 	Avatar         string `gorm:"size:1000"`
 }
 
@@ -47,4 +51,15 @@ func (user *User) SetPassword(password string) error {
 func (user *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(user.PasswordDigest), []byte(password))
 	return err == nil
+}
+
+// AvatarURL 封面地址
+func (user *User) AvatarURL() string {
+	client, _ := oss.New(os.Getenv("OSS_END_POINT"), os.Getenv("OSS_ACCESS_KEY_ID"), os.Getenv("OSS_ACCESS_KEY_SECRET"))
+	bucket, _ := client.Bucket(os.Getenv("OSS_BUCKET"))
+	signedGetURL, _ := bucket.SignURL(user.Avatar, oss.HTTPGet, 24*60*60)
+	//if strings.Contains(signedGetURL, "http://ailiaili-img-av.oss-cn-hangzhou.aliyuncs.com/?Exp") {
+	//signedGetURL := "https://ailiaili-img-av.oss-cn-hangzhou.aliyuncs.com/img/noface.png"
+	//}
+	return signedGetURL
 }
