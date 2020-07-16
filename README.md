@@ -8,6 +8,16 @@
 
 #### 如果觉得这个项目不错，您可以右上角 Star 支持一下，谢谢
 
+## 说明
+
+本项目采用了一系列 golang 中比较流行的组件来进行开发
+
+登录已由原来的 cookie 和 session 保存状态改为使用 token 验证
+
+静态图片存放在阿里云 OSS 上，mysql 存放图片地址
+
+项目还在完善中... 后续会部署到服务器上
+
 ## 项目依赖
 
 - Gin
@@ -15,6 +25,7 @@
 - mysql
 - redis
 - godotenv
+- jwt-go
 - 阿里云 OSS
 
 ## 目录结构
@@ -26,21 +37,34 @@ mall-go/
 ├── conf
 ├── middleware
 ├── model
+├── pkg
+│	├── e
+│	├── util
 ├── serializer
 ├── server
-├── service
-└── util
+└── service
+
 ```
 
 - api：用于定义接口函数
+
 - cache：redis 相关操作
+
 - conf：用于存储配置文件
+
 - middleware：应用中间件
+
 - model：应用数据库模型
+
+- pkg / e：封装错误码
+
+- pkg / util：工具函数
+
 - serializer：将数据序列化为 json 的函数
+
 - server 路由逻辑处理
+
 - service：接口函数的实现
-- util：工具函数
 
 ## Godotenv
 

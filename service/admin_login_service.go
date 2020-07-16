@@ -2,6 +2,8 @@ package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
+	"cmall/pkg/util"
 	"cmall/serializer"
 )
 
@@ -12,28 +14,38 @@ type AdminLoginService struct {
 }
 
 // Login 管理员登录函数
-func (service *AdminLoginService) Login() (model.User, *serializer.Response) {
-	var admin model.User
+func (service *AdminLoginService) Login() serializer.Response {
+	var admin model.Admin
+	var code int
 
 	if err := model.DB.Where("user_name = ?", service.UserName).First(&admin).Error; err != nil {
-		return admin, &serializer.Response{
-			Status: 40001,
-			Msg:    "不存在该账号",
+		code = e.ERROR_NOT_EXIST_USER
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
 		}
 	}
 
 	if admin.CheckPassword(service.Password) == false {
-		return admin, &serializer.Response{
-			Status: 40001,
-			Msg:    "账号或密码错误",
+		code = e.ERROR_NOT_COMPARE
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
 		}
 	}
 
-	if admin.Limit != 1 {
-		return admin, &serializer.Response{
-			Status: 40001,
-			Msg:    "权限不足",
+	token, err := util.GenerateToken(service.UserName, service.Password)
+	if err != nil {
+		code = e.ERROR_AUTH_TOKEN
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
 		}
 	}
-	return admin, nil
+	code = e.SUCCESS
+	return serializer.Response{
+		Data:   serializer.TokenData{User: serializer.BuildAdmin(admin), Token: token},
+		Status: code,
+		Msg:    e.GetMsg(code),
+	}
 }

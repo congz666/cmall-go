@@ -12,5 +12,6 @@ func migration() {
 		AutoMigrate(&Favorites{}).
 		AutoMigrate(&Categories{}).
 		AutoMigrate(&Orders{}).
-		AutoMigrate(&Carts{})
+		AutoMigrate(&Carts{}).
+		AutoMigrate(&Admin{})
 }

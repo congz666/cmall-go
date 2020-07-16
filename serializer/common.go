@@ -8,10 +8,16 @@ type Response struct {
 	Error  string      `json:"error"`
 }
 
-// DataList 基础列表结构
+// DataList 带有总数的Data结构
 type DataList struct {
 	Items interface{} `json:"items"`
 	Total uint        `json:"total"`
+}
+
+// TokenData 带有token的Data结构
+type TokenData struct {
+	User  interface{} `json:"user"`
+	Token string      `json:"token"`
 }
 
 // TrackedErrorResponse 有追踪信息的错误响应
@@ -20,7 +26,7 @@ type TrackedErrorResponse struct {
 	TrackID string `json:"track_id"`
 }
 
-// BuildListResponse 列表构建器
+// BuildListResponse 带有总数的列表构建器
 func BuildListResponse(items interface{}, total uint) Response {
 	return Response{
 		Data: DataList{

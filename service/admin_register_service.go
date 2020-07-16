@@ -6,16 +6,15 @@ import (
 	"cmall/serializer"
 )
 
-// UserRegisterService 管理用户注册服务
-type UserRegisterService struct {
-	Nickname        string `form:"nickname" json:"nickname" binding:"required,min=2,max=30"`
+// AdminRegisterService 管理用户注册服务
+type AdminRegisterService struct {
 	UserName        string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
 	Password        string `form:"password" json:"password" binding:"required,min=8,max=40"`
 	PasswordConfirm string `form:"password_confirm" json:"password_confirm" binding:"required,min=8,max=40"`
 }
 
 // Valid 验证表单
-func (service *UserRegisterService) Valid() *serializer.Response {
+func (service *AdminRegisterService) Valid() *serializer.Response {
 	var code int
 	if service.PasswordConfirm != service.Password {
 		code = e.ERROR_NOT_COMPARE_PASSWORD
@@ -26,17 +25,7 @@ func (service *UserRegisterService) Valid() *serializer.Response {
 	}
 
 	count := 0
-	model.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count)
-	if count > 0 {
-		code = e.ERROR_EXIST_NICK
-		return &serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-		}
-	}
-
-	count = 0
-	model.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count)
+	model.DB.Model(&model.Admin{}).Where("user_name = ?", service.UserName).Count(&count)
 	if count > 0 {
 		code = e.ERROR_EXIST_USER
 		return &serializer.Response{
@@ -49,11 +38,9 @@ func (service *UserRegisterService) Valid() *serializer.Response {
 }
 
 // Register 用户注册
-func (service *UserRegisterService) Register() *serializer.Response {
-	user := model.User{
-		Nickname: service.Nickname,
+func (service *AdminRegisterService) Register() *serializer.Response {
+	admin := model.Admin{
 		UserName: service.UserName,
-		Status:   model.Active,
 	}
 	var code int
 	// 表单验证
@@ -62,18 +49,15 @@ func (service *UserRegisterService) Register() *serializer.Response {
 	}
 
 	// 加密密码
-	if err := user.SetPassword(service.Password); err != nil {
+	if err := admin.SetPassword(service.Password); err != nil {
 		code = e.ERROR_FAIL_ENCRYPTION
 		return &serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
 		}
 	}
-
-	user.Avatar = "img/avatar/avatar1.jpg"
-
 	// 创建用户
-	if err := model.DB.Create(&user).Error; err != nil {
+	if err := model.DB.Create(&admin).Error; err != nil {
 		code = e.ERROR_DATABASE
 		return &serializer.Response{
 			Status: code,

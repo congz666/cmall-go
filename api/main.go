@@ -2,32 +2,12 @@ package api
 
 import (
 	"cmall/conf"
-	"cmall/model"
 	"cmall/serializer"
 	"encoding/json"
 	"fmt"
 
-	"github.com/gin-gonic/gin"
 	validator "gopkg.in/go-playground/validator.v8"
 )
-
-// Ping 状态检查页面
-func Ping(c *gin.Context) {
-	c.JSON(200, serializer.Response{
-		Status: 0,
-		Msg:    "Pong",
-	})
-}
-
-// CurrentUser 获取当前用户
-func CurrentUser(c *gin.Context) *model.User {
-	if user, _ := c.Get("user"); user != nil {
-		if u, ok := user.(*model.User); ok {
-			return u
-		}
-	}
-	return nil
-}
 
 // ErrorResponse 返回错误消息
 func ErrorResponse(err error) serializer.Response {

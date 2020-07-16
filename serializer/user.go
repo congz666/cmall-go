@@ -12,12 +12,6 @@ type User struct {
 	CreatedAt int64  `json:"created_at"`
 }
 
-// UserResponse 单个用户序列化
-type UserResponse struct {
-	Response
-	Data User `json:"data"`
-}
-
 // BuildUser 序列化用户
 func BuildUser(user model.User) User {
 	return User{
@@ -27,12 +21,5 @@ func BuildUser(user model.User) User {
 		Status:    user.Status,
 		Avatar:    user.AvatarURL(),
 		CreatedAt: user.CreatedAt.Unix(),
-	}
-}
-
-// BuildUserResponse 序列化用户响应
-func BuildUserResponse(user model.User) UserResponse {
-	return UserResponse{
-		Data: BuildUser(user),
 	}
 }

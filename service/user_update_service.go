@@ -7,15 +7,16 @@ import (
 
 // UserUpdateService 用户修改信息的服务
 type UserUpdateService struct {
+	ID       uint   `form:"id" json:"id"`
 	Nickname string `form:"nickname" json:"nickname" binding:"required,min=2,max=30"`
 	Avatar   string `form:"avatar" json:"avatar"`
 }
 
 // Update 用户修改信息
-func (service *UserUpdateService) Update(ID uint) serializer.Response {
+func (service *UserUpdateService) Update() serializer.Response {
 	var user model.User
 	//找到用户
-	err := model.DB.First(&user, ID).Error
+	err := model.DB.First(&user, service.ID).Error
 	if err != nil {
 		return serializer.Response{
 			Status: 404,

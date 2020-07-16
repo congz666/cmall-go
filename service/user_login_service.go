@@ -2,6 +2,8 @@ package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
+	"cmall/pkg/util"
 	"cmall/serializer"
 )
 
@@ -12,21 +14,39 @@ type UserLoginService struct {
 }
 
 // Login 用户登录函数
-func (service *UserLoginService) Login() (model.User, *serializer.Response) {
+func (service *UserLoginService) Login() serializer.Response {
 	var user model.User
+	var code int
 
 	if err := model.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
-		return user, &serializer.Response{
-			Status: 40001,
-			Msg:    "不存在该账号",
+		code = e.ERROR_NOT_EXIST_USER
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
 		}
 	}
 
 	if user.CheckPassword(service.Password) == false {
-		return user, &serializer.Response{
-			Status: 40001,
-			Msg:    "账号或密码错误",
+		code = e.ERROR_NOT_COMPARE
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
 		}
 	}
-	return user, nil
+
+	token, err := util.GenerateToken(service.UserName, service.Password)
+	if err != nil {
+		code = e.ERROR_AUTH_TOKEN
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+		}
+	}
+	code = e.SUCCESS
+	return serializer.Response{
+		Data:   serializer.TokenData{User: serializer.BuildUser(user), Token: token},
+		Status: code,
+		Msg:    e.GetMsg(code),
+	}
+
 }
