@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-14 10:47:54
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:45:18
+ * @LastEditTime: 2020-07-17 17:56:30
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -25,6 +27,7 @@ func (service *SearchProductsService) Show() serializer.Response {
 
 	err := model.DB.Where("name LIKE ?", "%"+service.Search+"%").Find(&products).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -35,6 +38,7 @@ func (service *SearchProductsService) Show() serializer.Response {
 	products1 := []model.Products{}
 	err = model.DB.Where("info LIKE ?", "%"+service.Search+"%").Find(&products1).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

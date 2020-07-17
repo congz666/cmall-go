@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-12 11:03:04
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:36:14
+ * @LastEditTime: 2020-07-17 17:54:59
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -26,6 +28,7 @@ func (service *DeleteFavoriteService) Delete() serializer.Response {
 
 	err := model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&favorite).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -36,6 +39,7 @@ func (service *DeleteFavoriteService) Delete() serializer.Response {
 
 	err = model.DB.Delete(&favorite).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

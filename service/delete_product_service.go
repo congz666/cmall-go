@@ -1,3 +1,4 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
@@ -10,6 +11,7 @@ package service
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -24,6 +26,7 @@ func (service *DeleteProductService) Delete(id string) serializer.Response {
 
 	err := model.DB.First(&product, id).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -34,6 +37,7 @@ func (service *DeleteProductService) Delete(id string) serializer.Response {
 
 	err = model.DB.Delete(&product).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

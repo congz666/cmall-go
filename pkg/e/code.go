@@ -1,3 +1,11 @@
+//Package e ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-07-15 14:53:04
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 16:47:11
+ */
 package e
 
 const (
@@ -19,4 +27,6 @@ const (
 	ERROR_AUTH                     = 20004
 
 	ERROR_DATABASE = 30001
+
+	ERROR_OSS = 40001
 )

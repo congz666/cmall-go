@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-07-15 15:47:27
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:30:17
+ * @LastEditTime: 2020-07-17 17:52:14
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -57,6 +59,7 @@ func (service *AdminRegisterService) Register() *serializer.Response {
 
 	// 加密密码
 	if err := admin.SetPassword(service.Password); err != nil {
+		logging.Info(err)
 		code = e.ERROR_FAIL_ENCRYPTION
 		return &serializer.Response{
 			Status: code,
@@ -65,6 +68,7 @@ func (service *AdminRegisterService) Register() *serializer.Response {
 	}
 	// 创建用户
 	if err := model.DB.Create(&admin).Error; err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return &serializer.Response{
 			Status: code,

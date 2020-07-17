@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-14 14:14:08
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:48:24
+ * @LastEditTime: 2020-07-17 17:57:01
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -30,6 +32,7 @@ func (service *ShowOrdersService) Show(id string) serializer.Response {
 	}
 
 	if err := model.DB.Model(&orders).Where("user_id=?", id).Count(&total).Error; err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -39,6 +42,7 @@ func (service *ShowOrdersService) Show(id string) serializer.Response {
 	}
 
 	if err := model.DB.Where("user_id=?", id).Limit(service.Limit).Offset(service.Start).Find(&orders).Error; err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

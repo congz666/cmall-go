@@ -1,6 +1,15 @@
+//Package api ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:46:20
+ */
 package api
 
 import (
+	"cmall/pkg/logging"
 	"cmall/serializer"
 	"cmall/service"
 
@@ -15,6 +24,7 @@ func UserRegister(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 
@@ -26,6 +36,7 @@ func UserLogin(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 
@@ -38,6 +49,7 @@ func UserUpdate(c *gin.Context) {
 
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 

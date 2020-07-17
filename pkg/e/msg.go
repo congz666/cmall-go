@@ -1,3 +1,11 @@
+//Package e ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-07-15 14:53:24
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:14:38
+ */
 package e
 
 // MsgFlags 状态码map
@@ -18,7 +26,9 @@ var MsgFlags = map[int]string{
 	ERROR_AUTH_TOKEN:               "Token生成失败",
 	ERROR_AUTH:                     "Token错误",
 
-	ERROR_DATABASE: "数据库错误",
+	ERROR_DATABASE: "数据库操作出错，请重试",
+
+	ERROR_OSS: "OSS配置错误",
 }
 
 // GetMsg 获取状态码对应信息

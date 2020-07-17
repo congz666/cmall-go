@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-14 13:22:30
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:33:43
+ * @LastEditTime: 2020-07-17 17:54:15
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 	"fmt"
 	"math/rand"
@@ -36,6 +38,7 @@ func (service *CreateOrderService) Create() serializer.Response {
 
 	err := model.DB.First(&product, service.ProductID).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -50,6 +53,7 @@ func (service *CreateOrderService) Create() serializer.Response {
 	orderNum = orderNum + productNum + userNum
 	orderID, err := strconv.ParseUint(orderNum, 10, 64)
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR
 		return serializer.Response{
 			Status: code,
@@ -60,6 +64,7 @@ func (service *CreateOrderService) Create() serializer.Response {
 	order.OrderID = orderID
 	err = model.DB.Create(&order).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

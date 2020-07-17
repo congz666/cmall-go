@@ -1,9 +1,10 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-07-02 11:52:43
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:50:52
+ * @LastEditTime: 2020-07-17 17:57:21
  */
 package service
 
@@ -11,6 +12,7 @@ import (
 	"cmall/cache"
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 	"fmt"
 
@@ -32,6 +34,7 @@ func (service *ShowRankingService) Show() serializer.Response {
 		order := fmt.Sprintf("FIELD(id, %s)", strings.Join(pros, ","))
 		err := model.DB.Where("id in (?)", pros).Order(order).Find(&products).Error
 		if err != nil {
+			logging.Info(err)
 			code := e.ERROR_DATABASE
 			return serializer.Response{
 				Status: code,

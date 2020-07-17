@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-07-12 15:25:38
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:54:48
+ * @LastEditTime: 2020-07-17 17:59:03
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -27,6 +29,7 @@ func (service *UserUpdateService) Update() serializer.Response {
 	//找到用户
 	err := model.DB.First(&user, service.ID).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -41,6 +44,7 @@ func (service *UserUpdateService) Update() serializer.Response {
 	}
 	err = model.DB.Save(&user).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

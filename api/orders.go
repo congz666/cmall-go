@@ -1,6 +1,15 @@
+//Package api ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-14 13:07:14
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:47:19
+ */
 package api
 
 import (
+	"cmall/pkg/logging"
 	"cmall/service"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +23,7 @@ func CreateOrder(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 
@@ -25,5 +35,6 @@ func ShowOrders(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }

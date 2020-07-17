@@ -1,14 +1,16 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:53:04
+ * @LastEditTime: 2020-07-17 17:58:02
  */
 package service
 
 import (
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 	"mime"
 	"os"
@@ -28,9 +30,11 @@ func (service *UploadAvatarService) Post() serializer.Response {
 	code := e.SUCCESS
 	client, err := oss.New(os.Getenv("OSS_END_POINT"), os.Getenv("OSS_ACCESS_KEY_ID"), os.Getenv("OSS_ACCESS_KEY_SECRET"))
 	if err != nil {
+		logging.Info(err)
+		code = e.ERROR_OSS
 		return serializer.Response{
-			Status: 50002,
-			Msg:    "OSS配置错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
@@ -38,9 +42,11 @@ func (service *UploadAvatarService) Post() serializer.Response {
 	// 获取存储空间。
 	bucket, err := client.Bucket(os.Getenv("OSS_BUCKET"))
 	if err != nil {
+		logging.Info(err)
+		code = e.ERROR_OSS
 		return serializer.Response{
-			Status: 50002,
-			Msg:    "OSS配置错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
@@ -57,18 +63,22 @@ func (service *UploadAvatarService) Post() serializer.Response {
 	// 签名直传。
 	signedPutURL, err := bucket.SignURL(key, oss.HTTPPut, 600, options...)
 	if err != nil {
+		logging.Info(err)
+		code = e.ERROR_OSS
 		return serializer.Response{
-			Status: 50002,
-			Msg:    "OSS配置错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 	// 查看图片
 	signedGetURL, err := bucket.SignURL(key, oss.HTTPGet, 600)
 	if err != nil {
+		logging.Info(err)
+		code = e.ERROR_OSS
 		return serializer.Response{
-			Status: 50002,
-			Msg:    "OSS配置错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}

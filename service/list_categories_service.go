@@ -1,3 +1,4 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
@@ -10,6 +11,7 @@ package service
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -23,6 +25,7 @@ func (service *ListCategoriesService) List() serializer.Response {
 	code := e.SUCCESS
 
 	if err := model.DB.Find(&categories).Error; err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

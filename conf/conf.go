@@ -1,8 +1,17 @@
+//Package conf ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:49:08
+ */
 package conf
 
 import (
 	"cmall/cache"
 	"cmall/model"
+	"cmall/pkg/logging"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -15,6 +24,7 @@ func Init() {
 
 	// 读取翻译文件
 	if err := LoadLocales("conf/locales/zh-cn.yaml"); err != nil {
+		logging.Info(err)
 		panic(err)
 	}
 

@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-10 14:11:04
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:29:46
+ * @LastEditTime: 2020-07-17 17:52:26
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -27,6 +29,7 @@ func (service *CreateCarouselService) Create() serializer.Response {
 
 	err := model.DB.Create(&carousel).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

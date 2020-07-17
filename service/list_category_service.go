@@ -1,17 +1,18 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-10 13:00:37
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:41:48
+ * @LastEditTime: 2020-07-17 17:55:28
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
-	"strconv"
 )
 
 // ShowCategoryService 视频列表服务
@@ -30,17 +31,8 @@ func (service *ShowCategoryService) Show(CategoryID string) serializer.Response 
 		service.Limit = 15
 	}
 
-	id, err := strconv.Atoi(CategoryID)
-	if err != nil {
-		code = e.ERROR
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
-	}
-
-	if err := model.DB.Model(model.Products{}).Where("category_id=?", id).Count(&total).Error; err != nil {
+	if err := model.DB.Model(model.Products{}).Where("category_id=?", CategoryID).Count(&total).Error; err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -49,7 +41,8 @@ func (service *ShowCategoryService) Show(CategoryID string) serializer.Response 
 		}
 	}
 
-	if err := model.DB.Where("category_id=?", id).Limit(service.Limit).Offset(service.Start).Find(&products).Error; err != nil {
+	if err := model.DB.Where("category_id=?", CategoryID).Limit(service.Limit).Offset(service.Start).Find(&products).Error; err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

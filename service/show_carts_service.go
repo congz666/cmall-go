@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-14 15:48:10
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:46:37
+ * @LastEditTime: 2020-07-17 17:56:40
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -24,6 +26,7 @@ func (service *ShowCartsService) Show(id string) serializer.Response {
 
 	err := model.DB.Where("user_id=?", id).Find(&carts).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

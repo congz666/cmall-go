@@ -1,6 +1,15 @@
+//Package api ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 11:40:36
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:46:59
+ */
 package api
 
 import (
+	"cmall/pkg/logging"
 	"cmall/service"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +23,7 @@ func CreateProduct(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 
@@ -25,6 +35,7 @@ func ListProducts(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 
 }
@@ -59,6 +70,7 @@ func UpdateProduct(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 
@@ -70,5 +82,6 @@ func SearchProducts(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }

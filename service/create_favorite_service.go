@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-12 09:03:27
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:31:17
+ * @LastEditTime: 2020-07-17 17:53:55
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -30,6 +32,7 @@ func (service *CreateFavoriteService) Create() serializer.Response {
 
 	err := model.DB.First(&product, service.ProductID).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -40,6 +43,7 @@ func (service *CreateFavoriteService) Create() serializer.Response {
 
 	err = model.DB.Create(&favorite).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

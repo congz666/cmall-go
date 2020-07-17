@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-12 09:31:52
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:47:28
+ * @LastEditTime: 2020-07-17 17:56:50
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -29,6 +31,7 @@ func (service *ShowFavoritesService) Show(id string) serializer.Response {
 		service.Limit = 12
 	}
 	if err := model.DB.Model(&favorites).Where("user_id=?", id).Count(&total).Error; err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -39,6 +42,7 @@ func (service *ShowFavoritesService) Show(id string) serializer.Response {
 
 	err := model.DB.Where("user_id=?", id).Limit(service.Limit).Offset(service.Start).Find(&favorites).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

@@ -1,8 +1,17 @@
+//Package service ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 13:35:13
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:57:14
+ */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -16,6 +25,7 @@ func (service *ShowProductService) Show(id string) serializer.Response {
 	code := e.SUCCESS
 	err := model.DB.First(&product, id).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

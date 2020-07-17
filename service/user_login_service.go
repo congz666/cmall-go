@@ -1,17 +1,21 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:53:37
+ * @LastEditTime: 2020-07-17 17:58:31
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/pkg/util"
 	"cmall/serializer"
+
+	"github.com/jinzhu/gorm"
 )
 
 // UserLoginService 管理用户登录的服务
@@ -26,7 +30,16 @@ func (service *UserLoginService) Login() serializer.Response {
 	code := e.SUCCESS
 
 	if err := model.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
-		code = e.ERROR_NOT_EXIST_USER
+		//如果查询不到，返回相应错误
+		if gorm.IsRecordNotFoundError(err) {
+			code = e.ERROR_NOT_EXIST_USER
+			return serializer.Response{
+				Status: code,
+				Msg:    e.GetMsg(code),
+			}
+		}
+		logging.Info(err)
+		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
@@ -43,6 +56,7 @@ func (service *UserLoginService) Login() serializer.Response {
 
 	token, err := util.GenerateToken(service.UserName, service.Password)
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_AUTH_TOKEN
 		return serializer.Response{
 			Status: code,

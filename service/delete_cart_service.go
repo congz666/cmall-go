@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-14 17:28:09
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:35:29
+ * @LastEditTime: 2020-07-17 17:54:46
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -26,6 +28,7 @@ func (service *DeleteCartService) Delete() serializer.Response {
 
 	err := model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&cart).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,
@@ -36,6 +39,7 @@ func (service *DeleteCartService) Delete() serializer.Response {
 
 	err = model.DB.Delete(&cart).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

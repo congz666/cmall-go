@@ -1,6 +1,15 @@
+//Package api ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-12 09:01:58
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:47:35
+ */
 package api
 
 import (
+	"cmall/pkg/logging"
 	"cmall/service"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +23,7 @@ func CreateFavorite(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 
@@ -25,6 +35,7 @@ func ShowFavorites(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 
@@ -36,5 +47,6 @@ func DeleteFavorite(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }

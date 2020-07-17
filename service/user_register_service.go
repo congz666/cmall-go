@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:54:15
+ * @LastEditTime: 2020-07-17 17:58:47
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -33,7 +35,14 @@ func (service *UserRegisterService) Valid() *serializer.Response {
 	}
 
 	count := 0
-	model.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count)
+	err := model.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count).Error
+	if err != nil {
+		code = e.ERROR_DATABASE
+		return &serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+		}
+	}
 	if count > 0 {
 		code = e.ERROR_EXIST_NICK
 		return &serializer.Response{
@@ -43,7 +52,14 @@ func (service *UserRegisterService) Valid() *serializer.Response {
 	}
 
 	count = 0
-	model.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count)
+	err = model.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count).Error
+	if err != nil {
+		code = e.ERROR_DATABASE
+		return &serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+		}
+	}
 	if count > 0 {
 		code = e.ERROR_EXIST_USER
 		return &serializer.Response{
@@ -70,6 +86,7 @@ func (service *UserRegisterService) Register() *serializer.Response {
 
 	// 加密密码
 	if err := user.SetPassword(service.Password); err != nil {
+		logging.Info(err)
 		code = e.ERROR_FAIL_ENCRYPTION
 		return &serializer.Response{
 			Status: code,
@@ -81,6 +98,7 @@ func (service *UserRegisterService) Register() *serializer.Response {
 
 	// 创建用户
 	if err := model.DB.Create(&user).Error; err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return &serializer.Response{
 			Status: code,

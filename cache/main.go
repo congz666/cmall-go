@@ -1,6 +1,15 @@
+//Package cache ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:48:47
+ */
 package cache
 
 import (
+	"cmall/pkg/logging"
 	"os"
 	"strconv"
 
@@ -22,6 +31,7 @@ func Redis() {
 	_, err := client.Ping().Result()
 
 	if err != nil {
+		logging.Info(err)
 		panic(err)
 	}
 

@@ -1,6 +1,15 @@
+//Package api ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 20:03:40
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 17:47:11
+ */
 package api
 
 import (
+	"cmall/pkg/logging"
 	"cmall/service"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +23,7 @@ func CreatePicture(c *gin.Context) {
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
 	}
 }
 

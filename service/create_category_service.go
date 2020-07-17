@@ -1,15 +1,17 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-12 22:16:18
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:29:26
+ * @LastEditTime: 2020-07-17 17:53:18
  */
 package service
 
 import (
 	"cmall/model"
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 )
 
@@ -28,6 +30,7 @@ func (service *CreateCategoryService) Create() serializer.Response {
 	code := e.SUCCESS
 	err := model.DB.Create(&category).Error
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
 			Status: code,

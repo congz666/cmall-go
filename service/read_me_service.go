@@ -1,14 +1,16 @@
+//Package service ...
 /*
  * @Descripttion:
  * @Author: congz
  * @Date: 2020-06-12 23:12:42
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:44:18
+ * @LastEditTime: 2020-07-17 17:56:11
  */
 package service
 
 import (
 	"cmall/pkg/e"
+	"cmall/pkg/logging"
 	"cmall/serializer"
 	"io/ioutil"
 	"os"
@@ -20,9 +22,10 @@ type ReadMeService struct {
 
 // Read
 func (service *ReadMeService) Read() serializer.Response {
-	f, err := os.Open("./me.md")
 	code := e.SUCCESS
+	f, err := os.Open("./me.md")
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR
 		return serializer.Response{
 			Status: code,
@@ -32,6 +35,7 @@ func (service *ReadMeService) Read() serializer.Response {
 	}
 	bytes, err := ioutil.ReadAll(f)
 	if err != nil {
+		logging.Info(err)
 		code = e.ERROR
 		return serializer.Response{
 			Status: code,
