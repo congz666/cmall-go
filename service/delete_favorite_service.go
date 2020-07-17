@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-12 11:03:04
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:36:14
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -14,23 +22,30 @@ type DeleteFavoriteService struct {
 // Delete 删除收藏
 func (service *DeleteFavoriteService) Delete() serializer.Response {
 	var favorite model.Favorites
+	code := e.SUCCESS
+
 	err := model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&favorite).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 404,
-			Msg:    "该收藏不存在",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
 	err = model.DB.Delete(&favorite).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50000,
-			Msg:    "收藏删除失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
-	return serializer.Response{}
+	return serializer.Response{
+		Status: code,
+		Msg:    e.GetMsg(code),
+	}
 }

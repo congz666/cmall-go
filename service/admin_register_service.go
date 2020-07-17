@@ -1,3 +1,10 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-07-15 15:47:27
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:30:17
+ */
 package service
 
 import (
@@ -42,7 +49,7 @@ func (service *AdminRegisterService) Register() *serializer.Response {
 	admin := model.Admin{
 		UserName: service.UserName,
 	}
-	var code int
+	code := e.SUCCESS
 	// 表单验证
 	if res := service.Valid(); res != nil {
 		return res
@@ -65,7 +72,6 @@ func (service *AdminRegisterService) Register() *serializer.Response {
 		}
 	}
 
-	code = e.SUCCESS
 	return &serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),

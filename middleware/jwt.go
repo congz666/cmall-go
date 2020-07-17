@@ -3,7 +3,6 @@ package middleware
 import (
 	"cmall/pkg/e"
 	"cmall/pkg/util"
-	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -29,7 +28,7 @@ func JWT() gin.HandlerFunc {
 		}
 
 		if code != e.SUCCESS {
-			c.JSON(http.StatusUnauthorized, gin.H{
+			c.JSON(200, gin.H{
 				"status": code,
 				"msg":    e.GetMsg(code),
 				"data":   data,

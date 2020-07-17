@@ -1,3 +1,10 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-17 14:45:17
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:30:01
+ */
 package service
 
 import (
@@ -16,7 +23,7 @@ type AdminLoginService struct {
 // Login 管理员登录函数
 func (service *AdminLoginService) Login() serializer.Response {
 	var admin model.Admin
-	var code int
+	code := e.SUCCESS
 
 	if err := model.DB.Where("user_name = ?", service.UserName).First(&admin).Error; err != nil {
 		code = e.ERROR_NOT_EXIST_USER
@@ -42,7 +49,7 @@ func (service *AdminLoginService) Login() serializer.Response {
 			Msg:    e.GetMsg(code),
 		}
 	}
-	code = e.SUCCESS
+
 	return serializer.Response{
 		Data:   serializer.TokenData{User: serializer.BuildAdmin(admin), Token: token},
 		Status: code,

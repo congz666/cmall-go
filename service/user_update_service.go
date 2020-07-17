@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-07-12 15:25:38
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:54:48
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -15,12 +23,14 @@ type UserUpdateService struct {
 // Update 用户修改信息
 func (service *UserUpdateService) Update() serializer.Response {
 	var user model.User
+	code := e.SUCCESS
 	//找到用户
 	err := model.DB.First(&user, service.ID).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 404,
-			Msg:    "查询用户失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
@@ -31,13 +41,16 @@ func (service *UserUpdateService) Update() serializer.Response {
 	}
 	err = model.DB.Save(&user).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50002,
-			Msg:    "用户信息保存失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 	return serializer.Response{
-		Data: serializer.BuildUser(user),
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildUser(user),
 	}
 }

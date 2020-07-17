@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-14 13:22:30
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:33:43
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 	"fmt"
 	"math/rand"
@@ -24,11 +32,14 @@ func (service *CreateOrderService) Create() serializer.Response {
 		Num:       service.Num,
 	}
 	product := model.Products{}
+	code := e.SUCCESS
+
 	err := model.DB.First(&product, service.ProductID).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "找不到该商品",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
@@ -39,23 +50,27 @@ func (service *CreateOrderService) Create() serializer.Response {
 	orderNum = orderNum + productNum + userNum
 	orderID, err := strconv.ParseUint(orderNum, 10, 64)
 	if err != nil {
+		code = e.ERROR
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "订单号生成失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 	order.OrderID = orderID
 	err = model.DB.Create(&order).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "订单保存失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
 	return serializer.Response{
-		Data: serializer.BuildOrder(order, product),
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildOrder(order, product),
 	}
 }

@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-14 17:04:28
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:51:45
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -15,22 +23,29 @@ type UpdateCartService struct {
 // Update 修改购物车信息
 func (service *UpdateCartService) Update() serializer.Response {
 	var cart model.Carts
+	code := e.SUCCESS
+
 	err := model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&cart).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 404,
-			Msg:    "查找购物车失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 	cart.Num = service.Num
 	err = model.DB.Save(&cart).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 404,
-			Msg:    "更新购物车失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
-	return serializer.Response{}
+	return serializer.Response{
+		Status: code,
+		Msg:    e.GetMsg(code),
+	}
 }

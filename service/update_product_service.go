@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-16 22:30:42
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:52:26
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -29,13 +37,18 @@ func (service *UpdateProductService) Update() serializer.Response {
 		DiscountPrice: service.DiscountPrice,
 	}
 	product.ID = service.ID
+	code := e.SUCCESS
 	err := model.DB.Save(&product).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "更新失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
-	return serializer.Response{}
+	return serializer.Response{
+		Status: code,
+		Msg:    e.GetMsg(code),
+	}
 }

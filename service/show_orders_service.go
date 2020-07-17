@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-14 14:14:08
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:48:24
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -16,23 +24,25 @@ func (service *ShowOrdersService) Show(id string) serializer.Response {
 	var orders []model.Orders
 
 	total := 0
-
+	code := e.SUCCESS
 	if service.Limit == 0 {
 		service.Limit = 5
 	}
 
 	if err := model.DB.Model(&orders).Where("user_id=?", id).Count(&total).Error; err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50000,
-			Msg:    "数据库连接错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
 	if err := model.DB.Where("user_id=?", id).Limit(service.Limit).Offset(service.Start).Find(&orders).Error; err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50000,
-			Msg:    "数据库连接错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}

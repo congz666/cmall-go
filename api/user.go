@@ -53,7 +53,7 @@ func CheckToken(c *gin.Context) {
 func UserLogout(c *gin.Context) {
 
 	c.JSON(200, serializer.Response{
-		Status: 0,
+		Status: 200,
 		Msg:    "登出成功",
 	})
 }

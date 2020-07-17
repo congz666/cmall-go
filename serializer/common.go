@@ -1,3 +1,10 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:40:31
+ */
 package serializer
 
 // Response 基础序列化器
@@ -29,6 +36,8 @@ type TrackedErrorResponse struct {
 // BuildListResponse 带有总数的列表构建器
 func BuildListResponse(items interface{}, total uint) Response {
 	return Response{
+		Status: 200,
+		Msg:    "ok",
 		Data: DataList{
 			Items: items,
 			Total: total,

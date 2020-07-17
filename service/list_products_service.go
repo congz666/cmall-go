@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 11:52:23
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:43:13
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -16,23 +24,26 @@ func (service *ListProductsService) List() serializer.Response {
 	products := []model.Products{}
 
 	total := 0
+	code := e.SUCCESS
 
 	if service.Limit == 0 {
 		service.Limit = 15
 	}
 
 	if err := model.DB.Model(model.Products{}).Count(&total).Error; err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50000,
-			Msg:    "数据库连接错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
 	if err := model.DB.Limit(service.Limit).Offset(service.Start).Find(&products).Error; err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50000,
-			Msg:    "数据库连接错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}

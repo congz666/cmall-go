@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-12 09:03:27
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:31:17
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -18,25 +26,31 @@ func (service *CreateFavoriteService) Create() serializer.Response {
 		ProductID: service.ProductID,
 	}
 	product := model.Products{}
+	code := e.SUCCESS
+
 	err := model.DB.First(&product, service.ProductID).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "找不到该商品",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
 	err = model.DB.Create(&favorite).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "收藏保存失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
 	return serializer.Response{
-		Data: serializer.BuildFavorite(favorite, product),
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildFavorite(favorite, product),
 	}
 }

@@ -1,6 +1,14 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-12 23:12:42
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:44:18
+ */
 package service
 
 import (
+	"cmall/pkg/e"
 	"cmall/serializer"
 	"io/ioutil"
 	"os"
@@ -13,23 +21,28 @@ type ReadMeService struct {
 // Read
 func (service *ReadMeService) Read() serializer.Response {
 	f, err := os.Open("./me.md")
+	code := e.SUCCESS
 	if err != nil {
+		code = e.ERROR
 		return serializer.Response{
-			Status: 404,
-			Msg:    "打开文件失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 	bytes, err := ioutil.ReadAll(f)
 	if err != nil {
+		code = e.ERROR
 		return serializer.Response{
-			Status: 404,
-			Msg:    "读取文件失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 	str := string(bytes)
 	return serializer.Response{
-		Data: str,
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   str,
 	}
 }

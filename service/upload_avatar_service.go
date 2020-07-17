@@ -1,6 +1,14 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:53:04
+ */
 package service
 
 import (
+	"cmall/pkg/e"
 	"cmall/serializer"
 	"mime"
 	"os"
@@ -17,6 +25,7 @@ type UploadAvatarService struct {
 
 // Post 创建token
 func (service *UploadAvatarService) Post() serializer.Response {
+	code := e.SUCCESS
 	client, err := oss.New(os.Getenv("OSS_END_POINT"), os.Getenv("OSS_ACCESS_KEY_ID"), os.Getenv("OSS_ACCESS_KEY_SECRET"))
 	if err != nil {
 		return serializer.Response{
@@ -65,6 +74,8 @@ func (service *UploadAvatarService) Post() serializer.Response {
 	}
 
 	return serializer.Response{
+		Status: code,
+		Msg:    e.GetMsg(code),
 		Data: map[string]string{
 			"key": key,
 			"put": signedPutURL,

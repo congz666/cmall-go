@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 11:10:13
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:34:44
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -27,17 +35,21 @@ func (service *CreateProductService) Create() serializer.Response {
 		Price:         service.Price,
 		DiscountPrice: service.DiscountPrice,
 	}
+	code := e.SUCCESS
 
 	err := model.DB.Create(&product).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "商品保存失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
 	return serializer.Response{
-		Data: serializer.BuildProduct(product),
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildProduct(product),
 	}
 }

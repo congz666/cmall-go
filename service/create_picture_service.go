@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 20:04:25
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:34:14
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -17,17 +25,20 @@ func (service *CreatePictureService) Create() serializer.Response {
 		ProductID: service.ProductID,
 		ImgPath:   service.ImgPath,
 	}
-
+	code := e.SUCCESS
 	err := model.DB.Create(&picture).Error
 	if err != nil {
+		code := e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "商品图片保存失败",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 
 	return serializer.Response{
-		Data: serializer.BuildPicture(picture),
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildPicture(picture),
 	}
 }

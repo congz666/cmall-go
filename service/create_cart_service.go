@@ -1,7 +1,15 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-14 15:40:28
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-17 11:26:43
+ */
 package service
 
 import (
 	"cmall/model"
+	"cmall/pkg/e"
 	"cmall/serializer"
 )
 
@@ -14,18 +22,21 @@ type CreateCartService struct {
 // Create 创建购物车
 func (service *CreateCartService) Create() serializer.Response {
 	var product model.Products
+	var code int
 	err := model.DB.First(&product, service.ProductID).Error
 	if err != nil {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50001,
-			Msg:    "数据库错误",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
 	if product == (model.Products{}) {
+		code = e.ERROR_DATABASE
 		return serializer.Response{
-			Status: 50002,
-			Msg:    "找不到该商品",
+			Status: code,
+			Msg:    e.GetMsg(code),
 			Error:  err.Error(),
 		}
 	}
@@ -43,9 +54,10 @@ func (service *CreateCartService) Create() serializer.Response {
 
 		err = model.DB.Create(&cart).Error
 		if err != nil {
+			code = e.ERROR_DATABASE
 			return serializer.Response{
-				Status: 50001,
-				Msg:    "购物车保存失败",
+				Status: code,
+				Msg:    e.GetMsg(code),
 				Error:  err.Error(),
 			}
 		}
@@ -56,9 +68,10 @@ func (service *CreateCartService) Create() serializer.Response {
 		cart.Num++
 		err = model.DB.Save(&cart).Error
 		if err != nil {
+			code = e.ERROR_DATABASE
 			return serializer.Response{
-				Status: 50001,
-				Msg:    "更新购物车失败",
+				Status: code,
+				Msg:    e.GetMsg(code),
 				Error:  err.Error(),
 			}
 		}
