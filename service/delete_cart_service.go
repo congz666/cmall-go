@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 17:28:09
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:54:46
+ * @LastEditTime: 2020-07-22 11:01:30
  */
 package service
 
@@ -23,7 +23,7 @@ type DeleteCartService struct {
 
 // Delete 删除购物车
 func (service *DeleteCartService) Delete() serializer.Response {
-	var cart model.Carts
+	var cart model.Cart
 	code := e.SUCCESS
 
 	err := model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&cart).Error

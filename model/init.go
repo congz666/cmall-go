@@ -1,3 +1,11 @@
+//Package model ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-22 11:13:35
+ */
 package model
 
 import (
@@ -24,6 +32,8 @@ func Database(connString string) {
 	if gin.Mode() == "release" {
 		db.LogMode(false)
 	}
+	//默认不加复数
+	db.SingularTable(true)
 	//设置连接池
 	//空闲
 	db.DB().SetMaxIdleConns(20)

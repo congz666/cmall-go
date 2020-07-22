@@ -2,9 +2,9 @@
 /*
  * @Descripttion:
  * @Author: congz
- * @Date: 2020-06-10 14:11:04
+ * @Date: 2020-07-20 10:50:23
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:52:26
+ * @LastEditTime: 2020-07-20 14:38:52
  */
 package service
 
@@ -15,19 +15,16 @@ import (
 	"cmall/serializer"
 )
 
-// CreateCarouselService 轮播图创建的服务
-type CreateCarouselService struct {
-	ImgPath string `form:"img_path" json:"img_path"`
+// ShowAddressesService 展示收货地址的服务
+type ShowAddressesService struct {
 }
 
-// Create 创建商品
-func (service *CreateCarouselService) Create() serializer.Response {
-	carousel := model.Carousel{
-		ImgPath: service.ImgPath,
-	}
+// Show 订单
+func (service *ShowAddressesService) Show(id string) serializer.Response {
+	var addresses []model.Address
 	code := e.SUCCESS
 
-	err := model.DB.Create(&carousel).Error
+	err := model.DB.Where("user_id=?", id).Order("created_at desc").Find(&addresses).Error
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
@@ -37,9 +34,10 @@ func (service *CreateCarouselService) Create() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
+
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
-		Data:   serializer.BuildCarousel(carousel),
+		Data:   serializer.BuildAddresses(addresses),
 	}
 }

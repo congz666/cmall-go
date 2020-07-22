@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:24
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:14:38
+ * @LastEditTime: 2020-07-22 14:35:29
  */
 package e
 
@@ -19,12 +19,14 @@ var MsgFlags = map[int]string{
 	ERROR_NOT_COMPARE:          "帐号密码错误",
 	ERROR_NOT_COMPARE_PASSWORD: "两次密码输入不一致",
 	ERROR_FAIL_ENCRYPTION:      "加密失败",
-	ERROR_NOT_EXIST_ARTICLE:    "该文章不存在",
+	ERROR_NOT_EXIST_PRODUCT:    "该商品不存在",
+	ERROR_NOT_EXIST_ADDRESS:    "该收货地址不存在",
 
-	ERROR_AUTH_CHECK_TOKEN_FAIL:    "Token鉴权失败",
-	ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "Token已超时",
-	ERROR_AUTH_TOKEN:               "Token生成失败",
-	ERROR_AUTH:                     "Token错误",
+	ERROR_AUTH_CHECK_TOKEN_FAIL:       "Token鉴权失败",
+	ERROR_AUTH_CHECK_TOKEN_TIMEOUT:    "Token已超时",
+	ERROR_AUTH_TOKEN:                  "Token生成失败",
+	ERROR_AUTH:                        "Token错误",
+	ERROR_AUTH_INSUFFICIENT_AUTHORITY: "权限不足",
 
 	ERROR_DATABASE: "数据库操作出错，请重试",
 

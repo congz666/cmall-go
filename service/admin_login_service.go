@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-17 14:45:17
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:51:44
+ * @LastEditTime: 2020-07-18 14:31:47
  */
 package service
 
@@ -54,7 +54,7 @@ func (service *AdminLoginService) Login() serializer.Response {
 		}
 	}
 
-	token, err := util.GenerateToken(service.UserName, service.Password)
+	token, err := util.GenerateToken(service.UserName, service.Password, 1)
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR_AUTH_TOKEN

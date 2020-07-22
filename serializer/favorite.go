@@ -1,11 +1,19 @@
+//Package serializer ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-12 09:11:12
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-22 10:59:04
+ */
 package serializer
 
 import (
 	"cmall/model"
 )
 
-// Favorites 视频序列化器
-type Favorites struct {
+// Favorite 收藏序列化器
+type Favorite struct {
 	UserID        uint   `json:"user_id"`
 	ProductID     uint   `json:"id"`
 	CreatedAt     int64  `json:"created_at"`
@@ -19,8 +27,8 @@ type Favorites struct {
 }
 
 // BuildFavorite 序列化收藏夹
-func BuildFavorite(item1 model.Favorites, item2 model.Products) Favorites {
-	return Favorites{
+func BuildFavorite(item1 model.Favorite, item2 model.Product) Favorite {
+	return Favorite{
 		UserID:        item1.UserID,
 		ProductID:     item1.ProductID,
 		CreatedAt:     item1.CreatedAt.Unix(),
@@ -35,9 +43,9 @@ func BuildFavorite(item1 model.Favorites, item2 model.Products) Favorites {
 }
 
 // BuildFavorites 序列化收藏夹列表
-func BuildFavorites(items []model.Favorites) (favorites []Favorites) {
+func BuildFavorites(items []model.Favorite) (favorites []Favorite) {
 	for _, item1 := range items {
-		item2 := model.Products{}
+		item2 := model.Product{}
 		err := model.DB.First(&item2, item1.ProductID).Error
 		if err != nil {
 			continue

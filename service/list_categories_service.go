@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-12 22:28:31
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:38:01
+ * @LastEditTime: 2020-07-22 11:01:51
  */
 package service
 
@@ -21,7 +21,7 @@ type ListCategoriesService struct {
 
 // List 视频列表
 func (service *ListCategoriesService) List() serializer.Response {
-	categories := []model.Categories{}
+	categories := []model.Category{}
 	code := e.SUCCESS
 
 	if err := model.DB.Find(&categories).Error; err != nil {

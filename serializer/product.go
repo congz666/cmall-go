@@ -1,9 +1,16 @@
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 11:32:51
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-22 11:00:00
+ */
 package serializer
 
 import "cmall/model"
 
-// Products 视频序列化器
-type Products struct {
+// Product 商品序列化器
+type Product struct {
 	ID            uint   `json:"id"`
 	Name          string `json:"name"`
 	CategoryID    int    `json:"category_id"`
@@ -17,8 +24,8 @@ type Products struct {
 }
 
 // BuildProduct 序列化商品
-func BuildProduct(item model.Products) Products {
-	return Products{
+func BuildProduct(item model.Product) Product {
+	return Product{
 		ID:            item.ID,
 		Name:          item.Name,
 		CategoryID:    item.CategoryID,
@@ -33,7 +40,7 @@ func BuildProduct(item model.Products) Products {
 }
 
 // BuildProducts 序列化商品列表
-func BuildProducts(items []model.Products) (products []Products) {
+func BuildProducts(items []model.Product) (products []Product) {
 	for _, item := range items {
 		product := BuildProduct(item)
 		products = append(products, product)

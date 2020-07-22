@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-16 22:30:42
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:57:40
+ * @LastEditTime: 2020-07-22 11:03:15
  */
 package service
 
@@ -29,7 +29,7 @@ type UpdateProductService struct {
 
 // Update 更新商品
 func (service *UpdateProductService) Update() serializer.Response {
-	product := model.Products{
+	product := model.Product{
 		Name:          service.Name,
 		CategoryID:    service.CategoryID,
 		Title:         service.Title,

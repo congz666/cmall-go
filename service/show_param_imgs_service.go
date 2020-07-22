@@ -2,9 +2,9 @@
 /*
  * @Descripttion:
  * @Author: congz
- * @Date: 2020-06-14 15:48:10
+ * @Date: 2020-06-10 20:08:41
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 11:02:17
+ * @LastEditTime: 2020-07-21 23:48:54
  */
 package service
 
@@ -15,16 +15,16 @@ import (
 	"cmall/serializer"
 )
 
-// ShowCartsService 订单详情的服务
-type ShowCartsService struct {
+// ShowParamImgsService 商品参数图片详情的服务
+type ShowParamImgsService struct {
 }
 
-// Show 订单
-func (service *ShowCartsService) Show(id string) serializer.Response {
-	var carts []model.Cart
+// Show 商品图片
+func (service *ShowParamImgsService) Show(id string) serializer.Response {
+	var paramImgs []model.ProductParamImg
 	code := e.SUCCESS
 
-	err := model.DB.Where("user_id=?", id).Find(&carts).Error
+	err := model.DB.Where("product_id=?", id).Find(&paramImgs).Error
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
@@ -36,8 +36,6 @@ func (service *ShowCartsService) Show(id string) serializer.Response {
 	}
 
 	return serializer.Response{
-		Status: code,
-		Msg:    e.GetMsg(code),
-		Data:   serializer.BuildCarts(carts),
+		Data: serializer.BuildParamImgs(paramImgs),
 	}
 }

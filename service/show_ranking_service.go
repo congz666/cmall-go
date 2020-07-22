@@ -25,7 +25,7 @@ type ShowRankingService struct {
 
 // Show 获取排行
 func (service *ShowRankingService) Show() serializer.Response {
-	var products []model.Products
+	var products []model.Product
 	code := e.SUCCESS
 	// 从redis读取点击前十的视频
 	pros, _ := cache.RedisClient.ZRevRange(cache.RankKey, 0, 9).Result()

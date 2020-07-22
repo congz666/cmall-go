@@ -2,9 +2,9 @@
 /*
  * @Descripttion:
  * @Author: congz
- * @Date: 2020-06-14 10:47:54
+ * @Date: 2020-07-20 20:39:40
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 11:02:07
+ * @LastEditTime: 2020-07-20 20:59:57
  */
 package service
 
@@ -15,17 +15,17 @@ import (
 	"cmall/serializer"
 )
 
-// SearchProductsService 搜索商品的服务
-type SearchProductsService struct {
-	Search string `form:"search" json:"search"`
+// DeleteAddressService 购物车删除的服务
+type DeleteAddressService struct {
+	AddressID uint `form:"address_id" json:"address_id"`
 }
 
-// Show 搜索商品
-func (service *SearchProductsService) Show() serializer.Response {
-	products := []model.Product{}
+// Delete 删除购物车
+func (service *DeleteAddressService) Delete() serializer.Response {
+	var address model.Address
 	code := e.SUCCESS
 
-	err := model.DB.Where("name LIKE ?", "%"+service.Search+"%").Find(&products).Error
+	err := model.DB.Where("id=?", service.AddressID).Find(&address).Error
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
@@ -35,8 +35,8 @@ func (service *SearchProductsService) Show() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-	products1 := []model.Product{}
-	err = model.DB.Where("info LIKE ?", "%"+service.Search+"%").Find(&products1).Error
+
+	err = model.DB.Delete(&address).Error
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
@@ -46,10 +46,8 @@ func (service *SearchProductsService) Show() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-	products = append(products, products1...)
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
-		Data:   serializer.BuildProducts(products),
 	}
 }

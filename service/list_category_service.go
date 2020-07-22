@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 13:00:37
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:55:28
+ * @LastEditTime: 2020-07-22 11:01:59
  */
 package service
 
@@ -23,7 +23,7 @@ type ShowCategoryService struct {
 
 // Show 分类列表
 func (service *ShowCategoryService) Show(CategoryID string) serializer.Response {
-	products := []model.Products{}
+	products := []model.Product{}
 
 	total := 0
 	code := e.SUCCESS
@@ -31,7 +31,7 @@ func (service *ShowCategoryService) Show(CategoryID string) serializer.Response 
 		service.Limit = 15
 	}
 
-	if err := model.DB.Model(model.Products{}).Where("category_id=?", CategoryID).Count(&total).Error; err != nil {
+	if err := model.DB.Model(model.Product{}).Where("category_id=?", CategoryID).Count(&total).Error; err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{

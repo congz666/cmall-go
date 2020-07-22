@@ -21,7 +21,7 @@ type ShowProductService struct {
 
 // Show 视频
 func (service *ShowProductService) Show(id string) serializer.Response {
-	var product model.Products
+	var product model.Product
 	code := e.SUCCESS
 	err := model.DB.First(&product, id).Error
 	if err != nil {

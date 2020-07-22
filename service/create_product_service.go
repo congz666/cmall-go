@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 11:10:13
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:54:37
+ * @LastEditTime: 2020-07-22 11:01:23
  */
 package service
 
@@ -28,7 +28,7 @@ type CreateProductService struct {
 
 // Create 创建商品
 func (service *CreateProductService) Create() serializer.Response {
-	product := model.Products{
+	product := model.Product{
 		Name:          service.Name,
 		CategoryID:    service.CategoryID,
 		Title:         service.Title,

@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 14:14:08
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:57:01
+ * @LastEditTime: 2020-07-22 14:15:15
  */
 package service
 
@@ -15,15 +15,15 @@ import (
 	"cmall/serializer"
 )
 
-// ShowOrdersService 订单详情的服务
-type ShowOrdersService struct {
+// ListOrdersService 订单详情的服务
+type ListOrdersService struct {
 	Limit int `form:"limit"`
 	Start int `form:"start"`
 }
 
-// Show 订单
-func (service *ShowOrdersService) Show(id string) serializer.Response {
-	var orders []model.Orders
+// List 订单
+func (service *ListOrdersService) List(id string) serializer.Response {
+	var orders []model.Order
 
 	total := 0
 	code := e.SUCCESS

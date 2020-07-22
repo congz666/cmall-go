@@ -23,7 +23,7 @@ type DeleteFavoriteService struct {
 
 // Delete 删除收藏
 func (service *DeleteFavoriteService) Delete() serializer.Response {
-	var favorite model.Favorites
+	var favorite model.Favorite
 	code := e.SUCCESS
 
 	err := model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&favorite).Error

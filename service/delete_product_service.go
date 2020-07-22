@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 14:30:52
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:36:57
+ * @LastEditTime: 2020-07-22 11:01:39
  */
 package service
 
@@ -21,7 +21,7 @@ type DeleteProductService struct {
 
 // Delete 删除商品
 func (service *DeleteProductService) Delete(id string) serializer.Response {
-	var product model.Products
+	var product model.Product
 	code := e.SUCCESS
 
 	err := model.DB.First(&product, id).Error

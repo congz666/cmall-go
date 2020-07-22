@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-12 09:03:27
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:53:55
+ * @LastEditTime: 2020-07-22 11:01:11
  */
 package service
 
@@ -23,11 +23,11 @@ type CreateFavoriteService struct {
 
 // Create 创建收藏夹图片
 func (service *CreateFavoriteService) Create() serializer.Response {
-	favorite := model.Favorites{
+	favorite := model.Favorite{
 		UserID:    service.UserID,
 		ProductID: service.ProductID,
 	}
-	product := model.Products{}
+	product := model.Product{}
 	code := e.SUCCESS
 
 	err := model.DB.First(&product, service.ProductID).Error

@@ -23,7 +23,7 @@ type ListProductsService struct {
 
 // List 视频列表
 func (service *ListProductsService) List() serializer.Response {
-	products := []model.Products{}
+	products := []model.Product{}
 
 	total := 0
 	code := e.SUCCESS
@@ -32,7 +32,7 @@ func (service *ListProductsService) List() serializer.Response {
 		service.Limit = 15
 	}
 
-	if err := model.DB.Model(model.Products{}).Count(&total).Error; err != nil {
+	if err := model.DB.Model(model.Product{}).Count(&total).Error; err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{

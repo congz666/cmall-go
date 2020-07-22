@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:58:31
+ * @LastEditTime: 2020-07-22 14:24:24
  */
 package service
 
@@ -32,6 +32,7 @@ func (service *UserLoginService) Login() serializer.Response {
 	if err := model.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
 		//如果查询不到，返回相应错误
 		if gorm.IsRecordNotFoundError(err) {
+			logging.Info(err)
 			code = e.ERROR_NOT_EXIST_USER
 			return serializer.Response{
 				Status: code,
@@ -54,7 +55,7 @@ func (service *UserLoginService) Login() serializer.Response {
 		}
 	}
 
-	token, err := util.GenerateToken(service.UserName, service.Password)
+	token, err := util.GenerateToken(service.UserName, service.Password, 0)
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR_AUTH_TOKEN

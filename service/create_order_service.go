@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 13:22:30
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:54:15
+ * @LastEditTime: 2020-07-22 11:53:07
  */
 package service
 
@@ -24,16 +24,18 @@ type CreateOrderService struct {
 	UserID    uint `form:"user_id" json:"user_id"`
 	ProductID uint `form:"product_id" json:"product_id"`
 	Num       uint `form:"num" json:"num"`
+	AddressID uint `form:"address_id" json:"address_id"`
 }
 
 // Create 创建订单
 func (service *CreateOrderService) Create() serializer.Response {
-	order := model.Orders{
+	order := model.Order{
 		UserID:    service.UserID,
 		ProductID: service.ProductID,
 		Num:       service.Num,
+		AddressID: service.AddressID,
 	}
-	product := model.Products{}
+	product := model.Product{}
 	code := e.SUCCESS
 
 	err := model.DB.First(&product, service.ProductID).Error
@@ -47,11 +49,11 @@ func (service *CreateOrderService) Create() serializer.Response {
 		}
 	}
 	//生成随机订单号
-	orderNum := fmt.Sprintf("%09v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(1000000000))
+	number := fmt.Sprintf("%09v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(1000000000))
 	productNum := strconv.Itoa(int(service.ProductID))
 	userNum := strconv.Itoa(int(service.UserID))
-	orderNum = orderNum + productNum + userNum
-	orderID, err := strconv.ParseUint(orderNum, 10, 64)
+	number = number + productNum + userNum
+	orderNum, err := strconv.ParseUint(number, 10, 64)
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR
@@ -61,7 +63,7 @@ func (service *CreateOrderService) Create() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-	order.OrderID = orderID
+	order.OrderNum = orderNum
 	err = model.DB.Create(&order).Error
 	if err != nil {
 		logging.Info(err)

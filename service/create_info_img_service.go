@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 20:04:25
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:54:25
+ * @LastEditTime: 2020-07-21 23:49:45
  */
 package service
 
@@ -15,20 +15,20 @@ import (
 	"cmall/serializer"
 )
 
-// CreatePictureService 商品图片创建的服务
-type CreatePictureService struct {
+// CreateInfoImgService 商品详情图片创建的服务
+type CreateInfoImgService struct {
 	ProductID uint   `form:"product_id" json:"product_id"`
 	ImgPath   string `form:"img_path" json:"img_path"`
 }
 
-// Create 创建商品图片
-func (service *CreatePictureService) Create() serializer.Response {
-	picture := model.Pictures{
+// Create 创建商品详情图片
+func (service *CreateInfoImgService) Create() serializer.Response {
+	infoImg := model.ProductInfoImg{
 		ProductID: service.ProductID,
 		ImgPath:   service.ImgPath,
 	}
 	code := e.SUCCESS
-	err := model.DB.Create(&picture).Error
+	err := model.DB.Create(&infoImg).Error
 	if err != nil {
 		logging.Info(err)
 		code := e.ERROR_DATABASE
@@ -42,6 +42,5 @@ func (service *CreatePictureService) Create() serializer.Response {
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
-		Data:   serializer.BuildPicture(picture),
 	}
 }

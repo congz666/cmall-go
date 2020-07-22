@@ -1,3 +1,11 @@
+//Package util ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-07-15 14:37:47
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-18 14:42:15
+ */
 package util
 
 import (
@@ -11,19 +19,21 @@ var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
 //Claims ...
 type Claims struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username  string `json:"username"`
+	Password  string `json:"password"`
+	Authority int    `json:"authority"`
 	jwt.StandardClaims
 }
 
 //GenerateToken 签发Token
-func GenerateToken(username, password string) (string, error) {
+func GenerateToken(username, password string, authority int) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(24 * time.Hour)
 
 	claims := Claims{
 		username,
 		password,
+		authority,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    "cmall",

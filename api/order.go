@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 13:07:14
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:47:19
+ * @LastEditTime: 2020-07-22 14:30:01
  */
 package api
 
@@ -27,9 +27,21 @@ func CreateOrder(c *gin.Context) {
 	}
 }
 
-// ShowOrders 订单详情接口
-func ShowOrders(c *gin.Context) {
-	service := service.ShowOrdersService{}
+// ListOrders 订单详情接口
+func ListOrders(c *gin.Context) {
+	service := service.ListOrdersService{}
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.List(c.Param("id"))
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
+}
+
+// ShowOrder 订单详情详情接口
+func ShowOrder(c *gin.Context) {
+	service := service.ShowOrderService{}
 	if err := c.ShouldBind(&service); err == nil {
 		res := service.Show(c.Param("id"))
 		c.JSON(200, res)

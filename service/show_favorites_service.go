@@ -23,7 +23,7 @@ type ShowFavoritesService struct {
 
 // Show 商品图片
 func (service *ShowFavoritesService) Show(id string) serializer.Response {
-	var favorites []model.Favorites
+	var favorites []model.Favorite
 	total := 0
 	code := e.SUCCESS
 

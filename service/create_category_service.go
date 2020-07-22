@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-12 22:16:18
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:53:18
+ * @LastEditTime: 2020-07-22 11:01:02
  */
 package service
 
@@ -23,7 +23,7 @@ type CreateCategoryService struct {
 
 // Create 创建分类
 func (service *CreateCategoryService) Create() serializer.Response {
-	category := model.Categories{
+	category := model.Category{
 		CategoryID:   service.CategoryID,
 		CategoryName: service.CategoryName,
 	}

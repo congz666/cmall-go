@@ -1,3 +1,11 @@
+//Package server ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-07-22 14:13:57
+ */
 package server
 
 import (
@@ -22,24 +30,19 @@ func NewRouter() *gin.Engine {
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
 
-		// 管理员登录
-		v1.POST("admin/login", api.AdminLogin)
-
 		//商品操作
-		v1.POST("products", api.CreateProduct)
 		v1.GET("products", api.ListProducts)
 		v1.GET("products/:id", api.ShowProduct)
 		v1.GET("categories/:category_id", api.ShowCategory)
-		v1.DELETE("products/:id", api.DeleteProduct)
-		v1.PUT("products", api.UpdateProduct)
 		//轮播图操作
-		v1.POST("carousels", api.CreateCarousel)
 		v1.GET("carousels", api.ListCarousels)
 		//商品图片操作
-		v1.POST("pictures", api.CreatePicture)
-		v1.GET("pictures/:id", api.ShowPictures)
+		v1.GET("imgs/:id", api.ShowProductImgs)
+		//商品详情图片操作
+		v1.GET("info-imgs/:id", api.ShowInfoImgs)
+		//商品参数图片操作
+		v1.GET("param-imgs/:id", api.ShowParamImgs)
 		//分类操作
-		v1.POST("categories", api.CreateCategory)
 		v1.GET("categories", api.ListCategories)
 		//搜索操作
 		v1.POST("searches", api.SearchProducts)
@@ -64,12 +67,18 @@ func NewRouter() *gin.Engine {
 			authed.DELETE("favorites", api.DeleteFavorite)
 			//订单操作
 			authed.POST("orders", api.CreateOrder)
-			authed.GET("orders/:id", api.ShowOrders)
-			//购物车
+			authed.GET("user/:id/orders", api.ListOrders)
+			authed.GET("orders/:id", api.ShowOrder)
+			//购物车操作
 			authed.POST("carts", api.CreateCart)
 			authed.GET("carts/:id", api.ShowCarts)
 			authed.PUT("carts", api.UpdateCart)
 			authed.DELETE("carts", api.DeleteCart)
+			//收货地址操作
+			authed.POST("addresses", api.CreateAddress)
+			authed.GET("addresses/:id", api.ShowAddresses)
+			authed.PUT("addresses", api.UpdateAddress)
+			authed.DELETE("addresses", api.DeleteAddress)
 		}
 
 	}
@@ -79,8 +88,35 @@ func NewRouter() *gin.Engine {
 		v2.POST("admin/register", api.AdminRegister)
 		// 管理员登录
 		v2.POST("admin/login", api.AdminLogin)
-		v2.Use(middleware.JWT())
+		//商品操作
 		v2.GET("products", api.ListProducts)
+		v2.GET("products/:id", api.ShowProduct)
+		//轮播图操作
+		v2.GET("carousels", api.ListCarousels)
+		//商品图片操作
+		v2.GET("imgs/:id", api.ShowProductImgs)
+		//分类操作
+		v2.GET("categories", api.ListCategories)
+		authed2 := v2.Group("/")
+		//登录验证
+		authed2.Use(middleware.JWTAdmin())
+		{
+			//商品操作
+			authed2.POST("products", api.CreateProduct)
+			authed2.DELETE("products/:id", api.DeleteProduct)
+			authed2.PUT("products", api.UpdateProduct)
+			//轮播图操作
+			authed2.POST("carousels", api.CreateCarousel)
+			//商品图片操作
+			authed2.POST("imgs", api.CreateProductImg)
+			//商品详情图片操作
+			authed2.POST("info-imgs", api.CreateInfoImg)
+			//商品参数图片操作
+			authed2.POST("param-imgs", api.CreateParamImg)
+			//分类操作
+			authed2.POST("categories", api.CreateCategory)
+
+		}
 	}
 	return r
 }

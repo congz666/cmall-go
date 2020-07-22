@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 20:08:41
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 11:48:52
+ * @LastEditTime: 2020-07-21 23:49:10
  */
 package service
 
@@ -15,16 +15,16 @@ import (
 	"cmall/serializer"
 )
 
-// ShowPicturesService 商品图片详情的服务
-type ShowPicturesService struct {
+// ShowInfoImgsService 商品详情图片详情的服务
+type ShowInfoImgsService struct {
 }
 
 // Show 商品图片
-func (service *ShowPicturesService) Show(id string) serializer.Response {
-	var pictures []model.Pictures
+func (service *ShowInfoImgsService) Show(id string) serializer.Response {
+	var infoImgs []model.ProductInfoImg
 	code := e.SUCCESS
 
-	err := model.DB.Where("product_id=?", id).Find(&pictures).Error
+	err := model.DB.Where("product_id=?", id).Find(&infoImgs).Error
 	if err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
@@ -36,6 +36,6 @@ func (service *ShowPicturesService) Show(id string) serializer.Response {
 	}
 
 	return serializer.Response{
-		Data: serializer.BuildPictures(pictures),
+		Data: serializer.BuildInfoImgs(infoImgs),
 	}
 }

@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 15:40:28
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:52:58
+ * @LastEditTime: 2020-07-22 11:00:52
  */
 package service
 
@@ -23,7 +23,7 @@ type CreateCartService struct {
 
 // Create 创建购物车
 func (service *CreateCartService) Create() serializer.Response {
-	var product model.Products
+	var product model.Product
 	code := e.SUCCESS
 	err := model.DB.First(&product, service.ProductID).Error
 	if err != nil {
@@ -35,7 +35,7 @@ func (service *CreateCartService) Create() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-	if product == (model.Products{}) {
+	if product == (model.Product{}) {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
@@ -44,11 +44,11 @@ func (service *CreateCartService) Create() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-	var cart model.Carts
+	var cart model.Cart
 	model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&cart)
 	//如果不存在该购物车则创建
-	if cart == (model.Carts{}) {
-		cart = model.Carts{
+	if cart == (model.Cart{}) {
+		cart = model.Cart{
 			UserID:    service.UserID,
 			ProductID: service.ProductID,
 			Num:       1,

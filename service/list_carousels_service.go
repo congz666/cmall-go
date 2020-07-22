@@ -21,7 +21,7 @@ type ListCarouselsService struct {
 
 // List 视频列表
 func (service *ListCarouselsService) List() serializer.Response {
-	carousels := []model.Carousels{}
+	carousels := []model.Carousel{}
 	code := e.SUCCESS
 
 	if err := model.DB.Find(&carousels).Error; err != nil {

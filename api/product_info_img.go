@@ -2,9 +2,9 @@
 /*
  * @Descripttion:
  * @Author: congz
- * @Date: 2020-06-10 20:03:40
+ * @Date: 2020-07-21 23:27:34
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:47:11
+ * @LastEditTime: 2020-07-21 23:50:50
  */
 package api
 
@@ -15,9 +15,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreatePicture 创建商品图片
-func CreatePicture(c *gin.Context) {
-	service := service.CreatePictureService{}
+// CreateInfoImg 创建商品详情图片
+func CreateInfoImg(c *gin.Context) {
+	service := service.CreateInfoImgService{}
 	if err := c.ShouldBind(&service); err == nil {
 		res := service.Create()
 		c.JSON(200, res)
@@ -27,9 +27,9 @@ func CreatePicture(c *gin.Context) {
 	}
 }
 
-// ShowPictures 商品详情接口
-func ShowPictures(c *gin.Context) {
-	service := service.ShowPicturesService{}
+// ShowInfoImgs 商品详情图片接口
+func ShowInfoImgs(c *gin.Context) {
+	service := service.ShowInfoImgsService{}
 	res := service.Show(c.Param("id"))
 	c.JSON(200, res)
 }

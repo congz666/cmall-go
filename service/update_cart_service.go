@@ -24,7 +24,7 @@ type UpdateCartService struct {
 
 // Update 修改购物车信息
 func (service *UpdateCartService) Update() serializer.Response {
-	var cart model.Carts
+	var cart model.Cart
 	code := e.SUCCESS
 
 	err := model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&cart).Error
