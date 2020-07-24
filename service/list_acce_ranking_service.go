@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-02 11:52:43
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:57:21
+ * @LastEditTime: 2020-07-23 14:40:48
  */
 package service
 
@@ -19,16 +19,16 @@ import (
 	"strings"
 )
 
-// ShowRankingService 展示排行的服务
-type ShowRankingService struct {
+// ListAcceRankingService 展示配件排行的服务
+type ListAcceRankingService struct {
 }
 
-// Show 获取排行
-func (service *ShowRankingService) Show() serializer.Response {
+// List 获取家电排行
+func (service *ListAcceRankingService) List() serializer.Response {
 	var products []model.Product
 	code := e.SUCCESS
 	// 从redis读取点击前十的视频
-	pros, _ := cache.RedisClient.ZRevRange(cache.RankKey, 0, 9).Result()
+	pros, _ := cache.RedisClient.ZRevRange(cache.AccessoryRank, 0, 6).Result()
 
 	if len(pros) > 1 {
 		order := fmt.Sprintf("FIELD(id, %s)", strings.Join(pros, ","))

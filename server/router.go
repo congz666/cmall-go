@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 14:13:57
+ * @LastEditTime: 2020-07-23 14:43:47
  */
 package server
 
@@ -46,8 +46,10 @@ func NewRouter() *gin.Engine {
 		v1.GET("categories", api.ListCategories)
 		//搜索操作
 		v1.POST("searches", api.SearchProducts)
-		//排行榜
-		v1.GET("rankings", api.ShowRanking)
+		//排行榜/热门
+		v1.GET("rankings", api.ListRanking)
+		v1.GET("elec-rankings", api.ListElecRanking)
+		v1.GET("acce-rankings", api.ListAcceRanking)
 		//README操作
 		v1.GET("abouts", api.ReadMe)
 		// 需要登录保护的

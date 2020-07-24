@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 11:11:17
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 10:53:55
+ * @LastEditTime: 2020-07-23 15:23:09
  */
 package model
 
@@ -40,4 +40,16 @@ func (product *Product) AddView() {
 	cache.RedisClient.Incr(cache.ProductViewKey(product.ID))
 	// 增加排行点击数
 	cache.RedisClient.ZIncrBy(cache.RankKey, 1, strconv.Itoa(int(product.ID)))
+}
+
+// AddElecRank 增加家电排行点击数
+func (product *Product) AddElecRank() {
+	// 增加家电排行点击数
+	cache.RedisClient.ZIncrBy(cache.ElectricalRank, 1, strconv.Itoa(int(product.ID)))
+}
+
+// AddAcceRank 增加配件排行点击数
+func (product *Product) AddAcceRank() {
+	// 增加配件排行点击数
+	cache.RedisClient.ZIncrBy(cache.AccessoryRank, 1, strconv.Itoa(int(product.ID)))
 }
