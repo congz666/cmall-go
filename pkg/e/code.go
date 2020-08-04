@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:04
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 14:34:57
+ * @LastEditTime: 2020-08-04 11:41:23
  */
 package e
 
@@ -21,6 +21,7 @@ const (
 	ERROR_FAIL_ENCRYPTION      = 10006
 	ERROR_NOT_EXIST_PRODUCT    = 10007
 	ERROR_NOT_EXIST_ADDRESS    = 10008
+	ERROR_EXIST_FAVORITE       = 10009
 
 	ERROR_AUTH_CHECK_TOKEN_FAIL       = 20001
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT    = 20002

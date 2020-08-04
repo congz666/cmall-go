@@ -1,3 +1,11 @@
+//Package middleware ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-08-03 11:53:57
+ */
 package middleware
 
 import (
@@ -10,7 +18,7 @@ func Cors() gin.HandlerFunc {
 	config := cors.DefaultConfig()
 	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
 	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Cookie"}
-	config.AllowOrigins = []string{"http://localhost:8080", "http://localhost:8081"}
+	config.AllowOrigins = []string{"http://localhost:8080", "http://localhost:8081", "http://cmall.congz.top", "http://www.congz.top"}
 	config.AllowCredentials = true
 	return cors.New(config)
 }

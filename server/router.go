@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-07-23 14:43:47
+ * @LastEditTime: 2020-08-04 11:23:30
  */
 package server
 
@@ -51,7 +51,7 @@ func NewRouter() *gin.Engine {
 		v1.GET("elec-rankings", api.ListElecRanking)
 		v1.GET("acce-rankings", api.ListAcceRanking)
 		//README操作
-		v1.GET("abouts", api.ReadMe)
+		v1.GET("notices", api.ShowNotice)
 		// 需要登录保护的
 		authed := v1.Group("/")
 		authed.Use(middleware.JWT())
@@ -117,7 +117,9 @@ func NewRouter() *gin.Engine {
 			authed2.POST("param-imgs", api.CreateParamImg)
 			//分类操作
 			authed2.POST("categories", api.CreateCategory)
-
+			//公告操作
+			authed2.POST("notices", api.CreateNotice)
+			authed2.PUT("notices", api.UpdateNotice)
 		}
 	}
 	return r

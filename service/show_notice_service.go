@@ -2,9 +2,9 @@
 /*
  * @Descripttion:
  * @Author: congz
- * @Date: 2020-06-10 20:08:41
+ * @Date: 2020-06-12 23:12:42
  * @LastEditors: congz
- * @LastEditTime: 2020-08-04 11:03:35
+ * @LastEditTime: 2020-08-04 11:04:02
  */
 package service
 
@@ -15,17 +15,15 @@ import (
 	"cmall/serializer"
 )
 
-// ShowInfoImgsService 商品详情图片详情的服务
-type ShowInfoImgsService struct {
+// ShowNoticeService 公告详情服务
+type ShowNoticeService struct {
 }
 
-// Show 商品图片
-func (service *ShowInfoImgsService) Show(id string) serializer.Response {
-	var infoImgs []model.ProductInfoImg
+// Show 公告详情服务
+func (service *ShowNoticeService) Show() serializer.Response {
+	var notice model.Notice
 	code := e.SUCCESS
-
-	err := model.DB.Where("product_id=?", id).Find(&infoImgs).Error
-	if err != nil {
+	if err := model.DB.First(&notice).Error; err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
@@ -34,10 +32,9 @@ func (service *ShowInfoImgsService) Show(id string) serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
-		Data:   serializer.BuildInfoImgs(infoImgs),
+		Data:   serializer.BuildNotice(notice),
 	}
 }

@@ -15,7 +15,13 @@ ENV REDIS_PW=""
 ENV REDIS_DB=""
 ENV MysqlDSN=""
 ENV GIN_MODE="release"
+ENV JWT_SECRET = ""
+ENV OSS_END_POINT=""
+ENV OSS_ACCESS_KEY_ID=""
+ENV OSS_ACCESS_KEY_SECRET=""
+ENV OSS_BUCKET=""
 ENV PORT=3000
+
 
 RUN echo "http://mirrors.aliyun.com/alpine/v3.7/main/" > /etc/apk/repositories && \
     apk update && \

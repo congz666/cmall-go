@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 14:14:08
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 14:15:15
+ * @LastEditTime: 2020-08-04 10:31:14
  */
 package service
 
@@ -41,7 +41,7 @@ func (service *ListOrdersService) List(id string) serializer.Response {
 		}
 	}
 
-	if err := model.DB.Where("user_id=?", id).Limit(service.Limit).Offset(service.Start).Find(&orders).Error; err != nil {
+	if err := model.DB.Where("user_id=?", id).Limit(service.Limit).Offset(service.Start).Order("created_at desc").Find(&orders).Error; err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{

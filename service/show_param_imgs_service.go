@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 20:08:41
  * @LastEditors: congz
- * @LastEditTime: 2020-07-21 23:48:54
+ * @LastEditTime: 2020-08-04 11:03:11
  */
 package service
 
@@ -36,6 +36,8 @@ func (service *ShowParamImgsService) Show(id string) serializer.Response {
 	}
 
 	return serializer.Response{
-		Data: serializer.BuildParamImgs(paramImgs),
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildParamImgs(paramImgs),
 	}
 }

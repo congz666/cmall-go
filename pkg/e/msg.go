@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:24
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 14:35:29
+ * @LastEditTime: 2020-08-04 11:42:17
  */
 package e
 
@@ -21,6 +21,7 @@ var MsgFlags = map[int]string{
 	ERROR_FAIL_ENCRYPTION:      "加密失败",
 	ERROR_NOT_EXIST_PRODUCT:    "该商品不存在",
 	ERROR_NOT_EXIST_ADDRESS:    "该收货地址不存在",
+	ERROR_EXIST_FAVORITE:       "已收藏该商品",
 
 	ERROR_AUTH_CHECK_TOKEN_FAIL:       "Token鉴权失败",
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT:    "Token已超时",

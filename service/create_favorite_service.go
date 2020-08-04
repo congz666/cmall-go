@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-12 09:03:27
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 11:01:11
+ * @LastEditTime: 2020-08-04 11:45:17
  */
 package service
 
@@ -21,40 +21,34 @@ type CreateFavoriteService struct {
 	ProductID uint `form:"product_id" json:"product_id"`
 }
 
-// Create 创建收藏夹图片
+// Create 创建收藏夹
 func (service *CreateFavoriteService) Create() serializer.Response {
-	favorite := model.Favorite{
-		UserID:    service.UserID,
-		ProductID: service.ProductID,
-	}
-	product := model.Product{}
+	var favorite model.Favorite
 	code := e.SUCCESS
-
-	err := model.DB.First(&product, service.ProductID).Error
-	if err != nil {
-		logging.Info(err)
-		code = e.ERROR_DATABASE
+	model.DB.Where("user_id=? AND product_id=?", service.UserID, service.ProductID).Find(&favorite)
+	if favorite == (model.Favorite{}) {
+		favorite = model.Favorite{
+			UserID:    service.UserID,
+			ProductID: service.ProductID,
+		}
+		if err := model.DB.Create(&favorite).Error; err != nil {
+			logging.Info(err)
+			code = e.ERROR_DATABASE
+			return serializer.Response{
+				Status: code,
+				Msg:    e.GetMsg(code),
+				Error:  err.Error(),
+			}
+		}
+	} else {
+		code = e.ERROR_EXIST_FAVORITE
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
 		}
 	}
-
-	err = model.DB.Create(&favorite).Error
-	if err != nil {
-		logging.Info(err)
-		code = e.ERROR_DATABASE
-		return serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
-			Error:  err.Error(),
-		}
-	}
-
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
-		Data:   serializer.BuildFavorite(favorite, product),
 	}
 }

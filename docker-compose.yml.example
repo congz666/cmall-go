@@ -1,17 +1,14 @@
 version: '2'
 
 services:
-  gili-api:
+  cmall-api:
     build: ./
-    image: gili-api:latest
-    container_name: gili-api
+    image: 容器镜像地址
+    container_name: 名称
     restart: always
     environment:
-      MYSQL_DSN: "root:QBwNk5GN5xfB@tcp(mysql:3306)/cmall?charset=utf8mb4,utf8&parseTime=True&loc=Local"
-      REDIS_ADDR: "redis:6379"
-      REDIS_DB: "0"
-      SESSION_SECRET: "rBaXcd1PPrC1"
-      GIN_MODE: "release"
+      MYSQL_DSN: "..."
+      ...环境变量
     ports:
       - 3002:3000
     depends_on:
@@ -19,16 +16,20 @@ services:
       - mysql
   mysql:
     container_name: mysql
-    image: mysql:5.6
+    image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: QBwNk5GN5xfB
-      MYSQL_DATABASE: cmall
+      MYSQL_ROOT_PASSWORD: ...
+      MYSQL_DATABASE: ...
+    volumes:
+      - 容器卷名:/var/lib/mysql/data
     ports:
       - "3306:3306"
   redis:
     container_name: redis
     image: redis
     restart: always
+    volumes:
+      - 容器卷名:/data
     ports:
       - "6379:6379"

@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-20 14:40:45
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 11:03:08
+ * @LastEditTime: 2020-08-04 10:15:32
  */
 package service
 
@@ -44,8 +44,20 @@ func (service *UpdateAddressService) Update() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
+	var addresses []model.Address
+	err = model.DB.Where("user_id=?", service.UserID).Order("created_at desc").Find(&addresses).Error
+	if err != nil {
+		logging.Info(err)
+		code = e.ERROR_DATABASE
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+			Error:  err.Error(),
+		}
+	}
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildAddresses(addresses),
 	}
 }
