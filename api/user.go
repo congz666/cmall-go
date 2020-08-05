@@ -4,23 +4,30 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-07-17 17:46:20
+ * @LastEditTime: 2020-08-05 11:14:52
  */
 package api
 
 import (
 	"cmall/pkg/logging"
+	"cmall/pkg/util/sdk"
 	"cmall/serializer"
 	"cmall/service"
+	"net/http"
+	"os"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 // UserRegister 用户注册接口
 func UserRegister(c *gin.Context) {
+	session := sessions.Default(c)
+	status := session.Get(sdk.GEETEST_SERVER_STATUS_SESSION_KEY)
+	userID := session.Get("userId")
 	var service service.UserRegisterService
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Register()
+		res := service.Register(userID, status)
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
@@ -30,9 +37,12 @@ func UserRegister(c *gin.Context) {
 
 // UserLogin 用户登录接口
 func UserLogin(c *gin.Context) {
+	session := sessions.Default(c)
+	status := session.Get(sdk.GEETEST_SERVER_STATUS_SESSION_KEY)
+	userID := session.Get("userId")
 	var service service.UserLoginService
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Login()
+		res := service.Login(userID, status)
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
@@ -68,4 +78,27 @@ func UserLogout(c *gin.Context) {
 		Status: 200,
 		Msg:    "登出成功",
 	})
+}
+
+// InitGeetest 极验初始化
+func InitGeetest(c *gin.Context) {
+	gtLib := sdk.NewGeetestLib(os.Getenv("GEETEST_ID"), os.Getenv("GEETEST_KEY"))
+	digestmod := "md5"
+	userID := "test"
+	params := map[string]string{
+		"digestmod":   digestmod,
+		"user_id":     userID,
+		"client_type": "web",
+		"ip_address":  "127.0.0.1",
+	}
+	result := gtLib.Register(digestmod, params)
+	// 将结果状态写到session中，此处register接口存入session，后续validate接口会取出使用
+	// 注意，此demo应用的session是单机模式，格外注意分布式环境下session的应用
+	session := sessions.Default(c)
+	session.Set(sdk.GEETEST_SERVER_STATUS_SESSION_KEY, result.Status)
+	session.Set("userId", userID)
+	session.Save()
+	// 注意，不要更改返回的结构和值类型
+	c.Header("Content-Type", "application/json;charset=UTF-8")
+	c.String(http.StatusOK, result.Data)
 }

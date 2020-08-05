@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:48:46
  * @LastEditors: congz
- * @LastEditTime: 2020-07-18 14:42:22
+ * @LastEditTime: 2020-08-05 15:30:22
  */
 package middleware
 
@@ -23,7 +23,7 @@ func JWT() gin.HandlerFunc {
 		var data interface{}
 
 		code = 200
-		token := c.Query("token")
+		token := c.GetHeader("Authorization")
 		if token == "" {
 			code = 400
 		} else {

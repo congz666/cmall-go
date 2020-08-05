@@ -4,14 +4,17 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-04 11:23:30
+ * @LastEditTime: 2020-08-05 09:56:08
  */
 package server
 
 import (
 	"cmall/api"
 	"cmall/middleware"
+	"cmall/pkg/util/sdk"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +23,8 @@ func NewRouter() *gin.Engine {
 	r := gin.Default()
 
 	r.Use(middleware.Cors())
-
+	store := cookie.NewStore([]byte(sdk.VERSION))
+	r.Use(sessions.Sessions("mysession", store))
 	// 路由
 	v1 := r.Group("/api/v1")
 	{
@@ -52,6 +56,7 @@ func NewRouter() *gin.Engine {
 		v1.GET("acce-rankings", api.ListAcceRanking)
 		//README操作
 		v1.GET("notices", api.ShowNotice)
+		v1.GET("geetest", api.InitGeetest)
 		// 需要登录保护的
 		authed := v1.Group("/")
 		authed.Use(middleware.JWT())

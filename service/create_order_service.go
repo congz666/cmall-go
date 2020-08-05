@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 13:22:30
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 11:53:07
+ * @LastEditTime: 2020-08-05 14:41:29
  */
 package service
 
@@ -33,13 +33,12 @@ func (service *CreateOrderService) Create() serializer.Response {
 		UserID:    service.UserID,
 		ProductID: service.ProductID,
 		Num:       service.Num,
-		AddressID: service.AddressID,
+		Status:    1,
 	}
-	product := model.Product{}
+	address := model.Address{}
 	code := e.SUCCESS
-
-	err := model.DB.First(&product, service.ProductID).Error
-	if err != nil {
+	//查找对应的地址
+	if err := model.DB.First(&address, service.AddressID).Error; err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{
@@ -48,6 +47,9 @@ func (service *CreateOrderService) Create() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
+	order.AddressName = address.Name
+	order.AddressPhone = address.Phone
+	order.Address = address.Address
 	//生成随机订单号
 	number := fmt.Sprintf("%09v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(1000000000))
 	productNum := strconv.Itoa(int(service.ProductID))
@@ -78,6 +80,5 @@ func (service *CreateOrderService) Create() serializer.Response {
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
-		Data:   serializer.BuildOrder(order, product),
 	}
 }
