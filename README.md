@@ -69,30 +69,26 @@ mall-go/
 项目在启动的时候依赖以下环境变量，但是在也可以在项目根目录创建.env 文件设置环境变量便于使用(建议开发环境使用)
 
 ```
-MYSQL_DSN="db_user:db_password@/db_name?charset=utf8&parseTime=True&loc=Local" # Mysql连接地址
-REDIS_ADDR="127.0.0.1:6379" # Redis端口和地址
+MYSQL_DSN="db_user:db_password@/db_name?charset=utf8&parseTime=True&loc=Local" # Mysql连接语句
+REDIS_ADDR="127.0.0.1:6379" # Redis端口地址
 REDIS_PW="" # Redis连接密码
 REDIS_DB="" # Redis库从0到10
-SESSION_SECRET="setOnProducation" # Seesion密钥，必须设置而且不要泄露
-GIN_MODE="debug"
-OSS_END_POINT="oss-cn-hongkong.aliyuncs.com"#阿里云oss的配置
-OSS_ACCESS_KEY_ID="xxx"
-OSS_ACCESS_KEY_SECRET="qqqq"
-OSS_BUCKET="lalalal"
-```
-
-## Go Mod
-
-本项目使用[Go Mod](https://github.com/golang/go/wiki/Modules)管理依赖。
-
-```
-export GOPROXY=http://mirrors.aliyun.com/goproxy/
-go mod tidy
+GIN_MODE="debug"#开发模式下使用debug
+OSS_END_POINT="oss-cn-shenzhen.aliyuncs.com"#你的仓库所在的阿里云对象存储地域节点
+OSS_ACCESS_KEY_ID=""#阿里云RAM访问控制用户ID
+OSS_ACCESS_KEY_SECRET=""#阿里云RAM访问控制KEY
+OSS_BUCKET=""#阿里云OSS仓库名
+GEETEST_ID=""#极验账号对应的ID（需要申请）
+GEETEST_KEY=""#极验账号对应的KEY（需要申请）
 ```
 
 ## 运行
 
+本项目使用[Go Mod](https://github.com/golang/go/wiki/Modules)管理依赖。
+
 ```
+git clone https://github.com/congz666/cmall-go.git
+cd cmall-go
 go run main.go
 ```
 
