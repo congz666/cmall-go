@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:48:46
  * @LastEditors: congz
- * @LastEditTime: 2020-08-05 15:30:22
+ * @LastEditTime: 2020-08-06 14:07:42
  */
 package middleware
 
@@ -56,7 +56,7 @@ func JWTAdmin() gin.HandlerFunc {
 		var data interface{}
 
 		code = e.SUCCESS
-		token := c.Query("token")
+		token := c.GetHeader("Authorization")
 		if token == "" {
 			code = e.INVALID_PARAMS
 		} else {

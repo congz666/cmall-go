@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 13:39:25
  * @LastEditors: congz
- * @LastEditTime: 2020-08-05 14:45:18
+ * @LastEditTime: 2020-08-06 11:10:10
  */
 package serializer
 
@@ -18,6 +18,7 @@ type Order struct {
 	OrderNum      uint64 `json:"order_num"`
 	CreatedAt     int64  `json:"created_at"`
 	UserID        uint   `json:"user_id"`
+	ProductID     uint   `json:"product_id"`
 	Num           uint   `json:"num"`
 	AddressName   string `json:"address_name"`
 	AddressPhone  string `json:"address_phone"`
@@ -34,6 +35,7 @@ func BuildOrder(item1 model.Order, item2 model.Product) Order {
 		OrderNum:      item1.OrderNum,
 		CreatedAt:     item1.CreatedAt.Unix(),
 		UserID:        item1.UserID,
+		ProductID:     item1.ProductID,
 		Num:           item1.Num,
 		AddressName:   item1.AddressName,
 		AddressPhone:  item1.AddressPhone,
