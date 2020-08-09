@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-05 10:43:09
+ * @LastEditTime: 2020-08-09 21:25:48
  */
 package service
 
@@ -19,13 +19,12 @@ import (
 
 // UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
-	Nickname        string `form:"nickname" json:"nickname" binding:"required,min=2,max=30"`
-	UserName        string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
-	Password        string `form:"password" json:"password" binding:"required,min=8,max=40"`
-	PasswordConfirm string `form:"password_confirm" json:"password_confirm" binding:"required,min=8,max=40"`
-	Challenge       string `form:"challenge" json:"challenge"`
-	Validate        string `form:"validate" json:"validate"`
-	Seccode         string `form:"seccode" json:"seccode"`
+	Nickname  string `form:"nickname" json:"nickname" binding:"required,min=2,max=10"`
+	UserName  string `form:"user_name" json:"user_name" binding:"required,min=5,max=15"`
+	Password  string `form:"password" json:"password" binding:"required,min=8,max=16"`
+	Challenge string `form:"challenge" json:"challenge"`
+	Validate  string `form:"validate" json:"validate"`
+	Seccode   string `form:"seccode" json:"seccode"`
 }
 
 // Valid 验证表单
@@ -56,15 +55,6 @@ func (service *UserRegisterService) Valid(userID, status interface{}) *serialize
 		return &serializer.Response{
 			Status: 404,
 			Msg:    result.Msg,
-		}
-	}
-
-	//检验密码
-	if service.PasswordConfirm != service.Password {
-		code = e.ERROR_NOT_COMPARE_PASSWORD
-		return &serializer.Response{
-			Status: code,
-			Msg:    e.GetMsg(code),
 		}
 	}
 

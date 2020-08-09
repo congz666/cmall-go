@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-05 11:14:52
+ * @LastEditTime: 2020-08-09 11:11:47
  */
 package api
 
@@ -78,6 +78,30 @@ func UserLogout(c *gin.Context) {
 		Status: 200,
 		Msg:    "登出成功",
 	})
+}
+
+// SendEmail 发送邮件接口
+func SendEmail(c *gin.Context) {
+	var service service.SendEmailService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Send()
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
+}
+
+// VaildEmail 绑定和解绑邮箱接口
+func VaildEmail(c *gin.Context) {
+	var service service.VaildEmailService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Vaild()
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
 }
 
 // InitGeetest 极验初始化

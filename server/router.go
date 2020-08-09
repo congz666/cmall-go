@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-05 09:56:08
+ * @LastEditTime: 2020-08-09 12:48:59
  */
 package server
 
@@ -28,12 +28,12 @@ func NewRouter() *gin.Engine {
 	// 路由
 	v1 := r.Group("/api/v1")
 	{
-		// 用户登录
+		// 用户注册
 		v1.POST("user/register", api.UserRegister)
-
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
-
+		// 邮箱绑定解绑接口
+		v1.POST("user/vaild-email", api.VaildEmail)
 		//商品操作
 		v1.GET("products", api.ListProducts)
 		v1.GET("products/:id", api.ShowProduct)
@@ -66,6 +66,7 @@ func NewRouter() *gin.Engine {
 			//用户操作
 			authed.PUT("user", api.UserUpdate)
 			authed.DELETE("user/logout", api.UserLogout)
+			authed.POST("user/sending-email", api.SendEmail)
 			// 上传操作
 			authed.POST("avatar", api.UploadToken)
 			//收藏夹操作

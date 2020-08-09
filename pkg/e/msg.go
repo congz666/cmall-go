@@ -4,13 +4,14 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:24
  * @LastEditors: congz
- * @LastEditTime: 2020-08-04 11:42:17
+ * @LastEditTime: 2020-08-09 19:53:53
  */
 package e
 
 // MsgFlags 状态码map
 var MsgFlags = map[int]string{
 	SUCCESS:                    "ok",
+	UPDATE_PASSWORD_SUCCESS:    "修改密码成功",
 	ERROR:                      "fail",
 	INVALID_PARAMS:             "请求参数错误",
 	ERROR_EXIST_NICK:           "已存在该昵称",
@@ -28,6 +29,8 @@ var MsgFlags = map[int]string{
 	ERROR_AUTH_TOKEN:                  "Token生成失败",
 	ERROR_AUTH:                        "Token错误",
 	ERROR_AUTH_INSUFFICIENT_AUTHORITY: "权限不足",
+	ERROR_READ_FILE:                   "读文件失败",
+	ERROR_SEND_EMAIL:                  "发送邮件失败",
 
 	ERROR_DATABASE: "数据库操作出错，请重试",
 

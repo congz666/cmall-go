@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:48:46
  * @LastEditors: congz
- * @LastEditTime: 2020-08-06 14:07:42
+ * @LastEditTime: 2020-08-08 16:33:29
  */
 package middleware
 
@@ -25,7 +25,7 @@ func JWT() gin.HandlerFunc {
 		code = 200
 		token := c.GetHeader("Authorization")
 		if token == "" {
-			code = 400
+			code = 404
 		} else {
 			claims, err := util.ParseToken(token)
 			if err != nil {

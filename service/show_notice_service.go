@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-12 23:12:42
  * @LastEditors: congz
- * @LastEditTime: 2020-08-04 11:04:02
+ * @LastEditTime: 2020-08-09 10:18:54
  */
 package service
 
@@ -23,7 +23,7 @@ type ShowNoticeService struct {
 func (service *ShowNoticeService) Show() serializer.Response {
 	var notice model.Notice
 	code := e.SUCCESS
-	if err := model.DB.First(&notice).Error; err != nil {
+	if err := model.DB.First(&notice, 1).Error; err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{

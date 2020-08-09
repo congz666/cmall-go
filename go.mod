@@ -9,12 +9,15 @@ require (
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-gonic/gin v1.5.0
+	github.com/go-mail/mail v2.3.1+incompatible
 	github.com/go-redis/redis v6.15.3+incompatible
 	github.com/google/uuid v1.1.1
 	github.com/jinzhu/gorm v1.9.10
 	github.com/joho/godotenv v1.3.0
 	github.com/satori/go.uuid v1.2.0 // indirect
 	golang.org/x/crypto v0.0.0-20190829043050-9756ffdc2472
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2
+	gopkg.in/mail.v2 v2.3.1
 	gopkg.in/yaml.v2 v2.2.2
 )

@@ -4,14 +4,15 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:04
  * @LastEditors: congz
- * @LastEditTime: 2020-08-04 11:41:23
+ * @LastEditTime: 2020-08-09 19:53:05
  */
 package e
 
 const (
-	SUCCESS        = 200
-	ERROR          = 500
-	INVALID_PARAMS = 400
+	SUCCESS                 = 200
+	UPDATE_PASSWORD_SUCCESS = 201
+	ERROR                   = 500
+	INVALID_PARAMS          = 400
 
 	ERROR_EXIST_NICK           = 10001
 	ERROR_EXIST_USER           = 10002
@@ -28,6 +29,8 @@ const (
 	ERROR_AUTH_TOKEN                  = 20003
 	ERROR_AUTH                        = 20004
 	ERROR_AUTH_INSUFFICIENT_AUTHORITY = 20005
+	ERROR_READ_FILE                   = 20006
+	ERROR_SEND_EMAIL                  = 20007
 
 	ERROR_DATABASE = 30001
 

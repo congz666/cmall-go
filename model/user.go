@@ -1,3 +1,11 @@
+// Package model ...
+/*
+ * @Descripttion:
+ * @Author: congz
+ * @Date: 2020-06-10 10:58:11
+ * @LastEditors: congz
+ * @LastEditTime: 2020-08-08 11:25:06
+ */
 package model
 
 import (
@@ -12,6 +20,7 @@ import (
 type User struct {
 	gorm.Model
 	UserName       string
+	Email          string
 	PasswordDigest string
 	Nickname       string
 	Status         string
