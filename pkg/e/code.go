@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:04
  * @LastEditors: congz
- * @LastEditTime: 2020-08-09 19:53:05
+ * @LastEditTime: 2020-08-12 11:17:30
  */
 package e
 
@@ -31,6 +31,8 @@ const (
 	ERROR_AUTH_INSUFFICIENT_AUTHORITY = 20005
 	ERROR_READ_FILE                   = 20006
 	ERROR_SEND_EMAIL                  = 20007
+	ERROR_CALL_API                    = 20008
+	ERROR_UNMARSHAL_JSON              = 20009
 
 	ERROR_DATABASE = 30001
 

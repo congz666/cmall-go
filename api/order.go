@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 13:07:14
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 14:30:01
+ * @LastEditTime: 2020-08-12 16:01:44
  */
 package api
 
@@ -43,7 +43,7 @@ func ListOrders(c *gin.Context) {
 func ShowOrder(c *gin.Context) {
 	service := service.ShowOrderService{}
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Show(c.Param("id"))
+		res := service.Show(c.Param("num"))
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))

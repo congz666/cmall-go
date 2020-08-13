@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-09 21:25:48
+ * @LastEditTime: 2020-08-12 22:32:04
  */
 package service
 
@@ -44,7 +44,7 @@ func (service *UserRegisterService) Valid(userID, status interface{}) *serialize
 		params := map[string]string{
 			"user_id":     userID.(string),
 			"client_type": "web",
-			"ip_address":  "127.0.0.1",
+			"ip_address":  "120.25.207.25",
 		}
 		result = gtLib.SuccessValidate(service.Challenge, service.Validate, service.Seccode, params)
 	} else {

@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 10:47:54
  * @LastEditors: congz
- * @LastEditTime: 2020-08-09 21:32:39
+ * @LastEditTime: 2020-08-09 22:30:27
  */
 package service
 
@@ -24,7 +24,7 @@ import (
 type SendEmailService struct {
 	UserID   uint   `form:"user_id" json:"user_id"`
 	Email    string `form:"email" json:"email"`
-	Password string `form:"password" json:"password" binding:"required,min=8,max=16"`
+	Password string `form:"password" json:"password"`
 	//OpertionType 1:绑定邮箱 2：解绑邮箱 3：改密码
 	OperationType uint `form:"operation_type" json:"operation_type"`
 }
@@ -63,7 +63,7 @@ func (service *SendEmailService) Send() serializer.Response {
 	m.SetHeader("Subject", "CMall")
 	m.SetBody("text/html", mailText)
 
-	d := mail.NewDialer(os.Getenv("SMTP_HOST"), 25, os.Getenv("SMTP_EMAIL"), os.Getenv("SMTP_PASS"))
+	d := mail.NewDialer(os.Getenv("SMTP_HOST"), 465, os.Getenv("SMTP_EMAIL"), os.Getenv("SMTP_PASS"))
 	d.StartTLSPolicy = mail.MandatoryStartTLS
 
 	// Send the email

@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 11:40:36
  * @LastEditors: congz
- * @LastEditTime: 2020-08-06 15:43:36
+ * @LastEditTime: 2020-08-12 20:58:01
  */
 package api
 
@@ -45,18 +45,6 @@ func ShowProduct(c *gin.Context) {
 	service := service.ShowProductService{}
 	res := service.Show(c.Param("id"))
 	c.JSON(200, res)
-}
-
-// ShowCategory 展示分类商品列表接口
-func ShowCategory(c *gin.Context) {
-	service := service.ShowCategoryService{}
-	if err := c.ShouldBind(&service); err == nil {
-		res := service.Show(c.Param("category_id"))
-		c.JSON(200, res)
-	} else {
-		c.JSON(200, ErrorResponse(err))
-		logging.Info(err)
-	}
 }
 
 // DeleteProduct 删除商品的接口

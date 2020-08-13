@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:24
  * @LastEditors: congz
- * @LastEditTime: 2020-08-09 19:53:53
+ * @LastEditTime: 2020-08-12 11:18:26
  */
 package e
 
@@ -31,6 +31,8 @@ var MsgFlags = map[int]string{
 	ERROR_AUTH_INSUFFICIENT_AUTHORITY: "权限不足",
 	ERROR_READ_FILE:                   "读文件失败",
 	ERROR_SEND_EMAIL:                  "发送邮件失败",
+	ERROR_CALL_API:                    "调用接口失败",
+	ERROR_UNMARSHAL_JSON:              "解码JSON失败",
 
 	ERROR_DATABASE: "数据库操作出错，请重试",
 

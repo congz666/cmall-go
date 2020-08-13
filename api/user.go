@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-09 11:11:47
+ * @LastEditTime: 2020-08-13 13:45:17
  */
 package api
 
@@ -104,6 +104,13 @@ func VaildEmail(c *gin.Context) {
 	}
 }
 
+// InitQQ 初始化QQ
+func InitQQ(c *gin.Context) {
+	service := service.InitQQService{}
+	res := service.Init()
+	c.JSON(200, res)
+}
+
 // InitGeetest 极验初始化
 func InitGeetest(c *gin.Context) {
 	gtLib := sdk.NewGeetestLib(os.Getenv("GEETEST_ID"), os.Getenv("GEETEST_KEY"))
@@ -113,7 +120,7 @@ func InitGeetest(c *gin.Context) {
 		"digestmod":   digestmod,
 		"user_id":     userID,
 		"client_type": "web",
-		"ip_address":  "127.0.0.1",
+		"ip_address":  "120.25.207.25",
 	}
 	result := gtLib.Register(digestmod, params)
 	// 将结果状态写到session中，此处register接口存入session，后续validate接口会取出使用

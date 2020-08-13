@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 20:04:25
  * @LastEditors: congz
- * @LastEditTime: 2020-08-04 11:25:36
+ * @LastEditTime: 2020-08-12 18:16:19
  */
 package service
 
@@ -17,14 +17,15 @@ import (
 
 // UpdateNoticeService 公告更新的服务
 type UpdateNoticeService struct {
-	Text string `form:"text" json:"text"`
+	NoticeID uint   `form:"notice_id" json:"notice_id"`
+	Text     string `form:"text" json:"text"`
 }
 
 // Update 公告更新的服务
 func (service *UpdateNoticeService) Update() serializer.Response {
 	var notice model.Notice
 	code := e.SUCCESS
-	if err := model.DB.First(&notice).Error; err != nil {
+	if err := model.DB.First(&notice, service.NoticeID).Error; err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{

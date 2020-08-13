@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-06 22:15:08
+ * @LastEditTime: 2020-08-13 11:32:25
  */
 package service
 
@@ -22,8 +22,8 @@ import (
 
 // UserLoginService 管理用户登录的服务
 type UserLoginService struct {
-	UserName  string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
-	Password  string `form:"password" json:"password" binding:"required,min=8,max=40"`
+	UserName  string `form:"user_name" json:"user_name" binding:"required,min=5,max=15"`
+	Password  string `form:"password" json:"password" binding:"required,min=8,max=16"`
 	Challenge string `form:"challenge" json:"challenge"`
 	Validate  string `form:"validate" json:"validate"`
 	Seccode   string `form:"seccode" json:"seccode"`
@@ -46,7 +46,7 @@ func (service *UserLoginService) Login(userID, status interface{}) serializer.Re
 		params := map[string]string{
 			"user_id":     userID.(string),
 			"client_type": "web",
-			"ip_address":  "127.0.0.1",
+			"ip_address":  "120.25.207.25",
 		}
 		result = gtLib.SuccessValidate(service.Challenge, service.Validate, service.Seccode, params)
 	} else {

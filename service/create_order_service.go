@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 13:22:30
  * @LastEditors: congz
- * @LastEditTime: 2020-08-05 14:41:29
+ * @LastEditTime: 2020-08-12 20:07:53
  */
 package service
 
@@ -33,7 +33,7 @@ func (service *CreateOrderService) Create() serializer.Response {
 		UserID:    service.UserID,
 		ProductID: service.ProductID,
 		Num:       service.Num,
-		Status:    1,
+		Type:      1,
 	}
 	address := model.Address{}
 	code := e.SUCCESS

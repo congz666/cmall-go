@@ -6,7 +6,7 @@
 
 本人准备大三，拿这个项目学习一些新的技能，如果有错误或者实现不好的地方欢迎 issues
 
-后续会实现支付功能，QQ 第三方登录，重写搜索系统，优化代码和数据库，因为即将开学，后续更新的进度可能会放慢。
+后续会实现支付功能（已完成)，QQ 第三方登录 (正在进行)，重写搜索系统，优化代码和数据库，因为即将开学，后续更新的进度可能会放慢。
 
 如果觉得这个项目不错，您可以右上角 Star 支持一下！谢谢您的支持，您的支持是我完善的动力！
 
@@ -20,8 +20,10 @@
 - redis
 - godotenv
 - jwt-go
+- go-mail
 - 阿里云 OSS
 - 极验 SDK
+- 支付 FM
 
 ## 目录结构
 
@@ -78,8 +80,16 @@ OSS_END_POINT="oss-cn-shenzhen.aliyuncs.com"#你的仓库所在的阿里云对�
 OSS_ACCESS_KEY_ID=""#阿里云RAM访问控制用户ID
 OSS_ACCESS_KEY_SECRET=""#阿里云RAM访问控制KEY
 OSS_BUCKET=""#阿里云OSS仓库名
+#本项目用的是163邮箱STMP
+SMTP_HOST=""#163是smtp.163.com
+SMTP_EMAIL=""#发送邮件的邮箱
+SMTP_PASS=""#SMTP服务的通行证
 GEETEST_ID=""#极验账号对应的ID（需要申请）
 GEETEST_KEY=""#极验账号对应的KEY（需要申请）
+FM_Pay_ID=""#支付FM账号对应的ID
+FM_Pay_Key=""#支付FM账号对应的KEY
+FM_Pay_NotifyURL=""#支付FM回调地址
+FM_Pay_ReturnURL=""#支付FM返回地址
 ```
 
 ## 运行

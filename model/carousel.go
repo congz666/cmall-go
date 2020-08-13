@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 14:03:57
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 10:55:20
+ * @LastEditTime: 2020-08-12 21:02:15
  */
 package model
 
@@ -15,5 +15,6 @@ import (
 // Carousel 轮播图模型
 type Carousel struct {
 	gorm.Model
-	ImgPath string
+	ImgPath   string
+	ProductID uint
 }

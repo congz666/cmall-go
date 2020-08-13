@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 14:14:08
  * @LastEditors: congz
- * @LastEditTime: 2020-08-05 14:47:05
+ * @LastEditTime: 2020-08-12 16:01:58
  */
 package service
 
@@ -22,12 +22,12 @@ type ShowOrderService struct {
 }
 
 // Show 订单
-func (service *ShowOrderService) Show(id string) serializer.Response {
+func (service *ShowOrderService) Show(num string) serializer.Response {
 	var order model.Order
 	var product model.Product
 	code := e.SUCCESS
 	//根据id查找order
-	if err := model.DB.Where("id=?", id).First(&order).Error; err != nil {
+	if err := model.DB.Where("order_num=?", num).First(&order).Error; err != nil {
 		logging.Info(err)
 		code = e.ERROR_DATABASE
 		return serializer.Response{

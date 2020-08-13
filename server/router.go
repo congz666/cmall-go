@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-09 12:48:59
+ * @LastEditTime: 2020-08-13 13:47:41
  */
 package server
 
@@ -32,12 +32,12 @@ func NewRouter() *gin.Engine {
 		v1.POST("user/register", api.UserRegister)
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
+		v1.GET("qq/login", api.InitQQ)
 		// 邮箱绑定解绑接口
 		v1.POST("user/vaild-email", api.VaildEmail)
 		//商品操作
 		v1.GET("products", api.ListProducts)
 		v1.GET("products/:id", api.ShowProduct)
-		v1.GET("categories/:category_id", api.ShowCategory)
 		//轮播图操作
 		v1.GET("carousels", api.ListCarousels)
 		//商品图片操作
@@ -57,6 +57,8 @@ func NewRouter() *gin.Engine {
 		//README操作
 		v1.GET("notices", api.ShowNotice)
 		v1.GET("geetest", api.InitGeetest)
+		//支付操作
+		v1.GET("payments", api.ConfirmPay)
 		// 需要登录保护的
 		authed := v1.Group("/")
 		authed.Use(middleware.JWT())
@@ -76,7 +78,7 @@ func NewRouter() *gin.Engine {
 			//订单操作
 			authed.POST("orders", api.CreateOrder)
 			authed.GET("user/:id/orders", api.ListOrders)
-			authed.GET("orders/:id", api.ShowOrder)
+			authed.GET("orders/:num", api.ShowOrder)
 			//购物车操作
 			authed.POST("carts", api.CreateCart)
 			authed.GET("carts/:id", api.ShowCarts)
@@ -87,6 +89,10 @@ func NewRouter() *gin.Engine {
 			authed.GET("addresses/:id", api.ShowAddresses)
 			authed.PUT("addresses", api.UpdateAddress)
 			authed.DELETE("addresses", api.DeleteAddress)
+			//支付操作
+			authed.POST("payments", api.InitPay)
+			//数量操作
+			authed.GET("counts/:id", api.ShowCount)
 		}
 
 	}

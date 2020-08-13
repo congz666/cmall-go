@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 11:46:28
  * @LastEditors: congz
- * @LastEditTime: 2020-08-05 14:36:17
+ * @LastEditTime: 2020-08-12 19:22:53
  */
 package model
 
@@ -22,5 +22,5 @@ type Order struct {
 	AddressName  string
 	AddressPhone string
 	Address      string
-	Status       uint
+	Type         uint
 }
