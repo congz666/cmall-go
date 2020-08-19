@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:24
  * @LastEditors: congz
- * @LastEditTime: 2020-08-12 11:18:26
+ * @LastEditTime: 2020-08-18 21:46:46
  */
 package e
 
@@ -12,6 +12,7 @@ package e
 var MsgFlags = map[int]string{
 	SUCCESS:                    "ok",
 	UPDATE_PASSWORD_SUCCESS:    "修改密码成功",
+	NOT_EXIST_IDENTIFIER:       "该第三方账号未绑定",
 	ERROR:                      "fail",
 	INVALID_PARAMS:             "请求参数错误",
 	ERROR_EXIST_NICK:           "已存在该昵称",

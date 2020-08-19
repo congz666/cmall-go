@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 13:35:13
  * @LastEditors: congz
- * @LastEditTime: 2020-08-13 14:01:45
+ * @LastEditTime: 2020-08-18 20:54:07
  */
 package service
 
@@ -13,6 +13,7 @@ import (
 	"cmall/serializer"
 	"fmt"
 	"net/url"
+	"os"
 )
 
 // InitQQService 商品详情的服务
@@ -23,12 +24,11 @@ type InitQQService struct {
 func (service *InitQQService) Init() serializer.Response {
 	code := e.SUCCESS
 	responseType := "code"
-	clientID := "101898836"
-	redirectURL := "http://cmall.congz.top/"
-	state := "1"
-	path := url.QueryEscape(redirectURL)
+	path := os.Getenv("QQ_Redirect_URI")
+	redirectURI := url.QueryEscape(path)
 
-	loginURL := fmt.Sprintf("https://graph.qq.com/oauth2.0/authorize?response_type=%s&client_id=%s&redirect_url=%s&state=%s", responseType, clientID, path, state)
+	loginURL := fmt.Sprintf("https://graph.qq.com/oauth2.0/authorize?response_type=%s&client_id=%s&redirect_uri=%s&state=%s",
+		responseType, os.Getenv("QQ_Client_ID"), redirectURI, os.Getenv("QQ_State"))
 
 	return serializer.Response{
 		Status: code,

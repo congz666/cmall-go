@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-04 10:53:03
+ * @LastEditTime: 2020-08-18 19:32:43
  */
 package model
 
@@ -25,5 +25,6 @@ func migration() {
 		AutoMigrate(&Address{}).
 		AutoMigrate(&ProductParamImg{}).
 		AutoMigrate(&ProductInfoImg{}).
-		AutoMigrate(&Notice{})
+		AutoMigrate(&Notice{}).
+		AutoMigrate(&UserAuth{})
 }

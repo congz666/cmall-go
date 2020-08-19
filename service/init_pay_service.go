@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-12 21:43:33
+ * @LastEditTime: 2020-08-17 11:35:53
  */
 package service
 
@@ -53,6 +53,7 @@ func (service *InitPayService) Init() serializer.Response {
 	buff.WriteString(os.Getenv("FM_Pay_Key"))
 	sign := fmt.Sprintf("%x", md5.Sum(buff.Bytes()))
 
+	returnURL := os.Getenv("FM_Pay_ReturnURL") + service.OrderNum
 	//构造请求参数
 	buff.Reset()
 	buff.WriteString("sign=")
@@ -68,8 +69,9 @@ func (service *InitPayService) Init() serializer.Response {
 	buff.WriteString("&notifyUrl=")
 	buff.WriteString(os.Getenv("FM_Pay_NotifyURL"))
 	buff.WriteString("&returnUrl=")
-	buff.WriteString(os.Getenv("FM_Pay_ReturnURL"))
-
+	buff.WriteString(returnURL)
+	buff.WriteString("&attch=")
+	buff.WriteString(os.Getenv("FM_Pay_attch"))
 	//调用渠道接口
 	resp, err := http.Post("http://zfapi.nnt.ltd/api/startOrder", "application/x-www-form-urlencoded", &buff)
 	if err != nil {

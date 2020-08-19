@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-14 10:47:54
  * @LastEditors: congz
- * @LastEditTime: 2020-08-09 22:30:27
+ * @LastEditTime: 2020-08-19 11:31:23
  */
 package service
 
@@ -53,7 +53,7 @@ func (service *SendEmailService) Send() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
-	address = "http://localhost:8080/#/vaild/email/" + token
+	address = os.Getenv("VAILD_EMAIL") + token
 	mailStr := notice.Text
 	mailText := strings.Replace(mailStr, "VaildAddress", address, -1)
 	m := mail.NewMessage()

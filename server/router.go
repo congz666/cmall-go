@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-13 13:47:41
+ * @LastEditTime: 2020-08-18 21:18:16
  */
 package server
 
@@ -33,6 +33,7 @@ func NewRouter() *gin.Engine {
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
 		v1.GET("qq/login", api.InitQQ)
+		v1.POST("qq/login", api.VaildQQ)
 		// 邮箱绑定解绑接口
 		v1.POST("user/vaild-email", api.VaildEmail)
 		//商品操作
@@ -67,7 +68,6 @@ func NewRouter() *gin.Engine {
 			authed.GET("ping", api.CheckToken)
 			//用户操作
 			authed.PUT("user", api.UserUpdate)
-			authed.DELETE("user/logout", api.UserLogout)
 			authed.POST("user/sending-email", api.SendEmail)
 			// 上传操作
 			authed.POST("avatar", api.UploadToken)

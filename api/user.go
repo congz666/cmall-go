@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-13 13:45:17
+ * @LastEditTime: 2020-08-18 23:08:21
  */
 package api
 
@@ -71,15 +71,6 @@ func CheckToken(c *gin.Context) {
 	})
 }
 
-// UserLogout 用户登出
-func UserLogout(c *gin.Context) {
-
-	c.JSON(200, serializer.Response{
-		Status: 200,
-		Msg:    "登出成功",
-	})
-}
-
 // SendEmail 发送邮件接口
 func SendEmail(c *gin.Context) {
 	var service service.SendEmailService
@@ -109,6 +100,18 @@ func InitQQ(c *gin.Context) {
 	service := service.InitQQService{}
 	res := service.Init()
 	c.JSON(200, res)
+}
+
+// VaildQQ 查询，一键注册，绑定接口
+func VaildQQ(c *gin.Context) {
+	var service service.VaildQQService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Vaild()
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
 }
 
 // InitGeetest 极验初始化

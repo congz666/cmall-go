@@ -4,13 +4,14 @@
  * @Author: congz
  * @Date: 2020-07-15 14:53:04
  * @LastEditors: congz
- * @LastEditTime: 2020-08-12 11:17:30
+ * @LastEditTime: 2020-08-18 21:46:17
  */
 package e
 
 const (
 	SUCCESS                 = 200
 	UPDATE_PASSWORD_SUCCESS = 201
+	NOT_EXIST_IDENTIFIER    = 202
 	ERROR                   = 500
 	INVALID_PARAMS          = 400
 

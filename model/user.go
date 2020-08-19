@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-08 11:25:06
+ * @LastEditTime: 2020-08-18 19:33:07
  */
 package model
 
@@ -19,10 +19,10 @@ import (
 // User 用户模型
 type User struct {
 	gorm.Model
-	UserName       string
-	Email          string
+	UserName       string `gorm:"unique"`
+	Email          string `gorm:"unique"`
 	PasswordDigest string
-	Nickname       string
+	Nickname       string `gorm:"unique"`
 	Status         string
 	Limit          int
 	Avatar         string `gorm:"size:1000"`
