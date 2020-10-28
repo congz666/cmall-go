@@ -4,7 +4,7 @@
  * @Author: congz
  * @Date: 2020-06-12 22:09:35
  * @LastEditors: congz
- * @LastEditTime: 2020-07-22 10:54:47
+ * @LastEditTime: 2020-09-24 13:39:01
  */
 package model
 
@@ -17,4 +17,5 @@ type Category struct {
 	gorm.Model
 	CategoryID   uint
 	CategoryName string
+	Num          uint
 }

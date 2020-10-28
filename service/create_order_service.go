@@ -4,19 +4,23 @@
  * @Author: congz
  * @Date: 2020-06-14 13:22:30
  * @LastEditors: congz
- * @LastEditTime: 2020-08-12 20:07:53
+ * @LastEditTime: 2020-10-28 12:30:33
  */
 package service
 
 import (
+	"cmall/cache"
 	"cmall/model"
 	"cmall/pkg/e"
 	"cmall/pkg/logging"
 	"cmall/serializer"
 	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 // CreateOrderService 订单创建的服务
@@ -66,6 +70,7 @@ func (service *CreateOrderService) Create() serializer.Response {
 		}
 	}
 	order.OrderNum = orderNum
+	//存入数据库
 	err = model.DB.Create(&order).Error
 	if err != nil {
 		logging.Info(err)
@@ -76,6 +81,9 @@ func (service *CreateOrderService) Create() serializer.Response {
 			Error:  err.Error(),
 		}
 	}
+	//将订单号存入Redis,并设置过期时间
+	data := redis.Z{Score: float64(time.Now().Unix()) + 15*time.Minute.Seconds(), Member: orderNum}
+	cache.RedisClient.ZAdd(os.Getenv("REDIS_ZSET_KEY"), data)
 
 	return serializer.Response{
 		Status: code,

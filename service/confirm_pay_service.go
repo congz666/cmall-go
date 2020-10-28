@@ -4,11 +4,12 @@
  * @Author: congz
  * @Date: 2020-06-10 10:58:11
  * @LastEditors: congz
- * @LastEditTime: 2020-08-17 10:04:39
+ * @LastEditTime: 2020-10-28 13:14:20
  */
 package service
 
 import (
+	"cmall/cache"
 	"cmall/model"
 	"cmall/pkg/logging"
 	"os"
@@ -32,6 +33,9 @@ func (service *ConfirmPayService) Confirm() {
 	if service.Attch == os.Getenv("FM_Pay_attch") {
 		if service.State == 1 {
 			if err := model.DB.Model(model.Order{}).Where("order_num=?", service.OrderNo).Update("type", 2).Error; err != nil {
+				logging.Info(err)
+			}
+			if err := cache.RedisClient.ZRem(os.Getenv("REDIS_ZSET_KEY"), service.OrderNo).Err(); err != nil {
 				logging.Info(err)
 			}
 		}
